@@ -1,3 +1,3 @@
-import MainQuestion from "@/containers/QuestionManagement/screen/MainQuestion";
+import Dashboard from "@/containers/Dashboard";
 
-export default MainQuestion;
+export default Dashboard;

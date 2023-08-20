@@ -3,6 +3,7 @@ import { MantineProvider } from '@mantine/core';
 import Layout from '@/components/organismComplexs/Layout';
 import theme from '@/styles/theme';
 import '@/styles/styles.css'
+import RouterLoading from '@/components/atoms/RouterLoading';
 
 export default function App(props) {
   const { Component, pageProps } = props;
@@ -19,6 +20,7 @@ export default function App(props) {
         withNormalizeCSS
         theme={theme}
       >
+        <RouterLoading />
         <Layout>
           <Component {...pageProps} />
         </Layout>

@@ -13,7 +13,7 @@ import NavbarItem from '../molecules/NavbarItem';
 const mockdata = [
   { label: 'Dashboard', icon: IconLayoutDashboard, link: '/' },
   { label: 'Question Management', icon: IconAlphabetGreek, link: '/question' },
-  { label: 'User Management', icon: IconUsersGroup, link: '/user' },
+  { label: 'Mentee Management', icon: IconUsersGroup, link: '/mentee' },
   { label: 'Report', icon: IconChartPie2, link: '/report' },
   // {
   //   label: 'Market news',

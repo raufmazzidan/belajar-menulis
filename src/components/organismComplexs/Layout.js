@@ -1,11 +1,18 @@
 import React from 'react';
 import Navigation from '../organisms/Navigation';
-import { AppShell } from '@mantine/core';
+import { AppShell, Box } from '@mantine/core';
 import { HeaderMegaMenu } from '../organisms/Header';
 import { useDisclosure } from '@mantine/hooks';
+import { useRouter } from 'next/router';
 
 const Layout = ({ children }) => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+
+  const router = useRouter()
+
+  if (['/404'].includes(router.pathname)) {
+    return children;
+  }
 
   return (
     <>
@@ -14,11 +21,14 @@ const Layout = ({ children }) => {
         navbar={<Navigation drawer={{ drawerOpened, closeDrawer }} />}
         header={<HeaderMegaMenu drawer={{ drawerOpened, toggleDrawer }} />}
         styles={(theme) => ({
-          main: { backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0] },
+          main: {
+            backgroundColor: theme.colors.gray[0],
+          },
         })}
       >
-        {/* Your application here */}
-        {children}
+        <Box p={16}>
+          {children}
+        </Box>
       </AppShell>
 
     </>

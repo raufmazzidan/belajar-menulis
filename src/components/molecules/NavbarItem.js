@@ -8,6 +8,7 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { IconChevronRight } from '@tabler/icons-react';
+import Link from 'next/link';
 
 const NavbarItem = ({ icon: Icon, label, initiallyOpened, link, childs }) => {
   const hasChild = Array.isArray(childs);
@@ -15,7 +16,7 @@ const NavbarItem = ({ icon: Icon, label, initiallyOpened, link, childs }) => {
 
   const items = (hasChild ? childs : []).map((child) => (
     <Text
-      component="a"
+      component={Link}
       href={child.link}
       py="sm"
       fw={500}
@@ -39,7 +40,7 @@ const NavbarItem = ({ icon: Icon, label, initiallyOpened, link, childs }) => {
   return (
     <>
       <UnstyledButton
-        component='a'
+        component={Link}
         href={link}
         onClick={() => setOpened((o) => !o)}
         px="md"
