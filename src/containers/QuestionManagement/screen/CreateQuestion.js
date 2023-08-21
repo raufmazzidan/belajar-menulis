@@ -3,7 +3,7 @@ import { Box, Button, Center, Checkbox, Divider, Grid, Group, Image, Input, Pape
 import { useForm } from '@mantine/form';
 import React from 'react';
 import validate from '../utils/validate';
-import imageDot from '@/assets/dot.PNG';
+import imageDot from '@/assets/dot.png';
 import imageEmptyData from '@/assets/empty-data.svg';
 import { IconGridDots, IconPlus, IconTrash } from '@tabler/icons-react';
 import States from '@/components/atoms/States';

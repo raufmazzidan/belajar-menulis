@@ -5,6 +5,8 @@ import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import { IconPlus, IconSearch } from '@tabler/icons-react';
 import ListPacks from '../element/ListPacks';
 import Link from 'next/link';
+import States from '@/components/atoms/States';
+import imageEmptyData from '@/assets/empty-data.svg';
 
 // If loading a variable font, you don't need to specify the font weight
 const dots = Raleway_Dots({ subsets: ['latin'], weight: ['400'] })
@@ -43,8 +45,13 @@ const MainQuestion = () => {
               </Box>
             </Box>
           </Grid.Col>
-          <Grid.Col span={8}>
-            <Box sx={{ minHeight: 'calc(100vh - 248px)' }}>
+          <Grid.Col span={7}>
+            <Box sx={{ minHeight: 'calc(100vh - 248px)', paddingTop: 80 }}>
+            <States
+                  image={imageEmptyData.src}
+                  message="Data Not Found"
+                  description="Tidak ada hasil yang sesuai dengan permintaan Anda"
+                />
             </Box>
           </Grid.Col>
         </Grid>
