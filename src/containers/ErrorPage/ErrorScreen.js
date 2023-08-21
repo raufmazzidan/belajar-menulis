@@ -9,7 +9,7 @@ import {
   rem,
   Box,
 } from '@mantine/core';
-import image from '@/assets/404.svg';
+import image404 from '@/assets/404.svg';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import Link from 'next/link';
 
@@ -67,7 +67,7 @@ export default function ErrorScreen() {
             Get back to home page
           </Button>
         </Box>
-        <Image src={image.src} alt='error' width={isMobile ? 300 : 424} />
+        <Image src={image404.src} alt='error' width={isMobile ? 300 : 424} />
       </Box>
     </Box>
   );

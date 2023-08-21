@@ -4,6 +4,7 @@ import { Raleway_Dots } from 'next/font/google'
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import { IconPlus, IconSearch } from '@tabler/icons-react';
 import ListPacks from '../element/ListPacks';
+import Link from 'next/link';
 
 // If loading a variable font, you don't need to specify the font weight
 const dots = Raleway_Dots({ subsets: ['latin'], weight: ['400'] })
@@ -14,13 +15,13 @@ const MainQuestion = () => {
 
   return (
     <>
-      <Group position='apart' mb={32}>
+      <Box mb={32}>
         <Breadcrumbs data={[{ label: 'Question Management' }]} />
-      </Group>
+      </Box>
       <Paper radius={0} withBorder>
         <Grid>
-          <Grid.Col span={4}>
-            <Box p={16} sx={(theme) => ({ borderRight: `1px solid ${theme.colors.gray[3]}`, height: '100%' })}>
+          <Grid.Col span={5}>
+            <Box p={32} sx={(theme) => ({ borderRight: `1px solid ${theme.colors.gray[3]}`, height: '100%' })}>
               <Group position='apart'>
                 <Group spacing={8}>
                   <Title order={4}>Question Pack</Title>
@@ -28,7 +29,7 @@ const MainQuestion = () => {
                     10
                   </Badge> */}
                 </Group>
-                <ActionIcon variant='outline' color='violet'>
+                <ActionIcon variant='outline' color='violet' component={Link} href="/question/create">
                   <IconPlus size="1.125rem" />
                 </ActionIcon>
               </Group>
