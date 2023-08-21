@@ -97,7 +97,10 @@ const CreateQuestion = () => {
             <Stack
               spacing={16}
               p={32}
-              pt={isMobile ? 64 : 32}
+              mt={isMobile ? 64 : 0}
+              sx={(theme) => ({
+                borderTop: isMobile ? `1px solid ${theme.colors.gray[3]}` : 'none'
+              })}
             >
               <Title order={4}>Question Item</Title>
               <Divider />
@@ -146,8 +149,8 @@ const CreateQuestion = () => {
                                     {...form.getInputProps(`item.${index}.question`)}
                                   />
                                   <Input.Wrapper label="Preview" mt={16}>
-                                    <Paper withBorder sx={{ minHeight: 124 }}>
-                                      <Text fz={80} ff="Print Dashed" align='center'>
+                                    <Paper withBorder sx={{ minHeight: 124, overflow: 'auto' }} px={16}>
+                                      <Text fz={80} ff="Print Dashed" align='center' sx={{ display: 'inline-block' }}>
                                         {form.values.item[index].question}
                                       </Text>
                                     </Paper>
