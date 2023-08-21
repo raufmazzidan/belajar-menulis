@@ -1,5 +1,5 @@
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
-import { Box, Button, Center, Checkbox, Divider, Grid, Group, Image, Input, Paper, Radio, Stack, Text, TextInput, Title } from '@mantine/core';
+import { Box, Button, Center, Checkbox, Divider, Flex, Grid, Group, Image, Input, Paper, Radio, Stack, Text, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React from 'react';
 import validate from '../utils/validate';
@@ -8,8 +8,11 @@ import imageEmptyData from '@/assets/empty-data.svg';
 import { IconGridDots, IconPlus, IconTrash } from '@tabler/icons-react';
 import States from '@/components/atoms/States';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import useWindowSize from '@/utils/hooks/useWindowSize';
 
 const CreateQuestion = () => {
+  const isMobile = useWindowSize({ type: 'max', limit: 'md' });
+
   const form = useForm({
     initialValues: {
       item: [
@@ -30,12 +33,17 @@ const CreateQuestion = () => {
 
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Group mb={32} position='apart'>
-        <Breadcrumbs data={[{ label: 'Question Management', href: '/question' }, { label: 'Create' }]} />
+        <Breadcrumbs
+          data={[
+            { label: 'Question Management', href: '/question' },
+            { label: 'Create' }
+          ]}
+        />
         <Button type='submit'>Submit</Button>
       </Group>
       <Paper radius={0} withBorder>
         <Grid>
-          <Grid.Col span={6}>
+          <Grid.Col span={isMobile ? 12 : 6}>
             <Stack
               sx={(theme) => ({
                 borderRight: `1px solid ${theme.colors.gray[3]}`,
@@ -61,7 +69,14 @@ const CreateQuestion = () => {
                   <Radio
                     value="dot"
                     label={(
-                      <Group h={200} mb={16} noWrap>
+                      <Flex
+                        h={200}
+                        mb={16}
+                        gap={16}
+                        noWrap
+                        align={isMobile ? "start" : "center"}
+                        direction={isMobile ? 'column' : 'row'}
+                      >
                         <Paper withBorder>
                           <Image height={200} width={200} radius="md" src={imageDot.src} alt="Question Dot" withPlaceholder />
                         </Paper>
@@ -71,17 +86,18 @@ const CreateQuestion = () => {
                             Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                           </Text>
                         </Box>
-                      </Group>
+                      </Flex>
                     )}
                   />
                 </Stack>
               </Radio.Group>
             </Stack>
           </Grid.Col>
-          <Grid.Col span={6}>
+          <Grid.Col span={isMobile ? 12 : 6}>
             <Stack
               spacing={16}
               p={32}
+              pt={isMobile ? 64 : 32}
             >
               <Title order={4}>Question Item</Title>
               <Divider />

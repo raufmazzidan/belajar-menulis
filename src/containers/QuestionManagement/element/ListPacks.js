@@ -18,29 +18,25 @@ const ListPacks = () => {
       title: 'Alfabet Bergaris Huruf A-E',
       type: 'dot',
       lastUpdate: '12/12/2022',
-      level: 1
     },
     {
       id: 'id_2',
       title: 'Alfabet Bergaris Huruf F-G',
       type: 'dot',
       lastUpdate: '22/22/2022',
-      level: 2
     },
     {
       id: 'id_3',
       title: 'Alfabet Bergaris Huruf A-E',
       type: 'dot',
       lastUpdate: '12/12/2022',
-      level: 3
     },
     {
       id: 'id_4',
       title: 'Alfabet Bergaris Huruf A-E',
       type: 'dot',
       lastUpdate: '12/12/2022',
-      level: 4
-    },
+    }
   ])
 
   const onDragEnd = (result) => {
