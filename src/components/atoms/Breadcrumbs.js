@@ -5,7 +5,6 @@ import { IconChevronRight } from '@tabler/icons-react';
 const Breadcrumbs = ({ data = [] }) => {
   return (
     <BaseBreadcrumbs
-    h={36}
       separator={(
         <Box component='span' pt="4px">
           <IconChevronRight size={20} />

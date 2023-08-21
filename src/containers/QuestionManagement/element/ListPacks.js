@@ -14,28 +14,32 @@ const reorder = (list, startIndex, endIndex) => {
 const ListPacks = () => {
   const [data, setData] = useState([
     {
-      id: '1a',
-      title: 'Huruf Kecil [a-m]',
-      type: 'dottedAlphabet',
-      lastUpdate: '11/11/1111'
+      id: 'id_1',
+      title: 'Alfabet Bergaris Huruf A-E',
+      type: 'dot',
+      lastUpdate: '12/12/2022',
+      level: 1
     },
     {
-      id: '2s',
-      title: 'Huruf Kecil [n-z]',
-      type: 'dottedAlphabet',
-      lastUpdate: '11/11/1111'
+      id: 'id_2',
+      title: 'Alfabet Bergaris Huruf F-G',
+      type: 'dot',
+      lastUpdate: '22/22/2022',
+      level: 2
     },
     {
-      id: 'd3',
-      title: 'Huruf Kecil [n-z]',
-      type: 'dottedAlphabet',
-      lastUpdate: '11/11/1111'
+      id: 'id_3',
+      title: 'Alfabet Bergaris Huruf A-E',
+      type: 'dot',
+      lastUpdate: '12/12/2022',
+      level: 3
     },
     {
-      id: 'f4',
-      title: 'Huruf Kecil [n-z]',
-      type: 'dottedAlphabet',
-      lastUpdate: '11/11/1111'
+      id: 'id_4',
+      title: 'Alfabet Bergaris Huruf A-E',
+      type: 'dot',
+      lastUpdate: '12/12/2022',
+      level: 4
     },
   ])
 
@@ -68,37 +72,37 @@ const ListPacks = () => {
               return (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
-                    <Box
+                    <Flex
+                      gap={16}
+                      align="center"
+                      justify="space-between"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      onClick={() => setActive(index)}
+                      onClick={() => setActive(item.id)}
                       sx={(theme) => ({
-                        background: snapshot.isDragging ? theme.colors.gray[0] : index === active ? theme.colors.violet[0] : 'white',
+                        background: snapshot.isDragging ? theme.colors.gray[0] : item.id === active ? theme.colors.violet[0] : 'white',
                         padding: 16,
                         '&:hover': {
                           background: theme.colors.gray[1]
                         },
                         userSelect: 'none',
                         cursor: 'pointer',
+                        minHeight: 80,
                         ...provided.draggableProps.style
                       })}
-
                     >
-                      <Flex gap={16} align="center">
-                        <Box {...provided.dragHandleProps}>
-                          <IconGridDots size={16} />
-                        </Box>
-                        <Box>
-                          <Title order={6}>
-                            {item.title}
-                            <Text component="span" fz="xs" ml={8} weight="lighter" color='grey'>(Level {index + 1})</Text>
-                          </Title>
+                      <Box {...provided.dragHandleProps}>
+                        <IconGridDots size={16} />
+                      </Box>
+                      <Box sx={{ flexGrow: 1 }}>
+                        <Title order={6}>
+                          {item.title}
+                        </Title>
 
-                          <Text fz="sm" color='grey'>Dotted Alphabet</Text>
-                        </Box>
-                        {/* <Text fz="xs" color='grey'>11/12/2023 <br/> 11:11</Text> */}
-                      </Flex>
-                    </Box>
+                        <Text fz="sm" color='grey'>Dotted Alphabet</Text>
+                      </Box>
+                      <Text sx={{ whiteSpace: 'nowrap' }} fz="xs" color='grey'>(Level {index + 1})</Text>
+                    </Flex>
                   )}
                 </Draggable>
               )
