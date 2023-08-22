@@ -11,33 +11,7 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const ListPacks = () => {
-  const [data, setData] = useState([
-    {
-      id: 'id_1',
-      title: 'Alfabet Bergaris Huruf A-E',
-      type: 'dot',
-      lastUpdate: '12/12/2022',
-    },
-    {
-      id: 'id_2',
-      title: 'Alfabet Bergaris Huruf F-G',
-      type: 'dot',
-      lastUpdate: '22/22/2022',
-    },
-    {
-      id: 'id_3',
-      title: 'Alfabet Bergaris Huruf A-E',
-      type: 'dot',
-      lastUpdate: '12/12/2022',
-    },
-    {
-      id: 'id_4',
-      title: 'Alfabet Bergaris Huruf A-E',
-      type: 'dot',
-      lastUpdate: '12/12/2022',
-    }
-  ])
+const ListPacks = ({ data, setData, active, setActive }) => {
 
   const onDragEnd = (result) => {
     // dropped outside the list
@@ -53,8 +27,6 @@ const ListPacks = () => {
 
     setData(items)
   }
-
-  const [active, setActive] = useState()
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
@@ -74,9 +46,9 @@ const ListPacks = () => {
                       justify="space-between"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      onClick={() => setActive(item.id)}
+                      onClick={() => setActive(item)}
                       sx={(theme) => ({
-                        background: snapshot.isDragging ? theme.colors.gray[0] : item.id === active ? theme.colors.violet[0] : 'white',
+                        background: snapshot.isDragging ? theme.colors.gray[0] : item.id === active.id ? theme.colors.violet[0] : 'white',
                         padding: 16,
                         '&:hover': {
                           background: theme.colors.gray[1]
@@ -95,7 +67,7 @@ const ListPacks = () => {
                           {item.title}
                         </Title>
 
-                        <Text fz="sm" color='grey'>Dotted Alphabet</Text>
+                        <Text fz="sm" color='grey'>{item.type}</Text>
                       </Box>
                       <Text sx={{ whiteSpace: 'nowrap' }} fz="xs" color='grey'>(Level {index + 1})</Text>
                     </Flex>

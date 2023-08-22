@@ -9,6 +9,7 @@ import { IconGridDots, IconPlus, IconTrash } from '@tabler/icons-react';
 import States from '@/components/atoms/States';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import useWindowSize from '@/utils/hooks/useWindowSize';
+import DottedPreview from '@/components/atoms/DottedPreview';
 
 const CreateQuestion = () => {
   const isMobile = useWindowSize({ type: 'max', limit: 'md' });
@@ -30,7 +31,6 @@ const CreateQuestion = () => {
   }
 
   return (
-
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Group mb={32} position='apart'>
         <Breadcrumbs
@@ -46,7 +46,7 @@ const CreateQuestion = () => {
           <Grid.Col span={isMobile ? 12 : 6}>
             <Stack
               sx={(theme) => ({
-                borderRight: `1px solid ${theme.colors.gray[3]}`,
+                borderRight: isMobile ? 'none' : `1px solid ${theme.colors.gray[3]}`,
               })}
               h="100%"
               p={32}
@@ -70,7 +70,8 @@ const CreateQuestion = () => {
                     value="dot"
                     label={(
                       <Flex
-                        h={200}
+                        display="block"
+                        h={isMobile ? 280 : 200}
                         mb={16}
                         gap={16}
                         noWrap
@@ -97,7 +98,6 @@ const CreateQuestion = () => {
             <Stack
               spacing={16}
               p={32}
-              mt={isMobile ? 64 : 0}
               sx={(theme) => ({
                 borderTop: isMobile ? `1px solid ${theme.colors.gray[3]}` : 'none'
               })}
@@ -149,11 +149,7 @@ const CreateQuestion = () => {
                                     {...form.getInputProps(`item.${index}.question`)}
                                   />
                                   <Input.Wrapper label="Preview" mt={16}>
-                                    <Paper withBorder sx={{ minHeight: 124, overflow: 'auto' }} px={16}>
-                                      <Text fz={80} ff="Print Dashed" align='center' sx={{ display: 'inline-block' }}>
-                                        {form.values.item[index].question}
-                                      </Text>
-                                    </Paper>
+                                    <DottedPreview content={form.values.item[index].question} />
                                   </Input.Wrapper>
                                 </Paper>
                               )}
