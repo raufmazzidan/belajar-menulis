@@ -1,5 +1,5 @@
 import { Box, Divider, Drawer, Navbar, ScrollArea } from '@mantine/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import Logo from '../atoms/Logo';
 import {
   IconLayoutDashboard,
@@ -9,6 +9,7 @@ import {
 } from '@tabler/icons-react';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import NavbarItem from '../molecules/NavbarItem';
+import { useRouter } from 'next/router';
 
 const mockdata = [
   { label: 'Dashboard', icon: IconLayoutDashboard, link: '/' },
@@ -30,8 +31,13 @@ const mockdata = [
 
 
 const Navigation = (props) => {
+  const router = useRouter();
   const { drawer: { drawerOpened, closeDrawer } } = props;
   const isMobile = useWindowSize({ type: 'max', limit: 'sm' });
+
+  useEffect(() => {
+    closeDrawer()
+  }, [router.asPath, closeDrawer])
 
   if (isMobile) {
     return (

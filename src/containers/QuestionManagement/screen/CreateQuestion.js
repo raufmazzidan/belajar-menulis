@@ -74,7 +74,6 @@ const CreateQuestion = () => {
                         h={isMobile ? 280 : 200}
                         mb={16}
                         gap={16}
-                        noWrap
                         align={isMobile ? "start" : "center"}
                         direction={isMobile ? 'column' : 'row'}
                       >

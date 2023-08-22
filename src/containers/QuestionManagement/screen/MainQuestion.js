@@ -141,62 +141,64 @@ const MainQuestion = () => {
               {/* <Group position='center' pt={200}>
                 <Loader />
               </Group> */}
-              <Group>
-                <Title order={4}>{active.title}</Title>
-                <ActionIcon variant='outline' color='yellow' component={Link} href="/question/edit/id">
-                  <IconPencil size="1.125rem" />
-                </ActionIcon>
-              </Group>
-              <Divider my={16} />
               {active.items?.length ? (
-                <Grid >
-                  <Grid.Col span={6}>
-                    <Information title="Tipe" value={active.type} />
-                  </Grid.Col>
-                  <Grid.Col span={6}>
-                    <Information title="Jumlah Question" value={active.items.length} />
-                  </Grid.Col>
-                  <Grid.Col span={6}>
-                    <Information title="Tanggal Dibuat" value={active.createdDate} />
-                  </Grid.Col>
-                  <Grid.Col span={6}>
-                    <Information title="Tanggal Diedit" value={active.lastUpdate} />
-                  </Grid.Col>
-                  <Grid.Col span={12}>
-                    <Information
-                      title="Question Item"
-                      value={(
-                        <Stack mt={10} spacing={16}>
-                          {active.items.map(({ question }, i) => (
-                            <Grid key={i}>
-                              <Grid.Col span={"content"}>
-                                <Box
-                                  bg="violet"
-                                  sx={{
-                                    alignItems: 'center',
-                                    borderRadius: '50%',
-                                    color: 'white',
-                                    display: 'flex',
-                                    height: 32,
-                                    justifyContent: 'center',
-                                    width: 32
-                                  }}
-                                >
-                                  <Text fz={16} fw={500}>
-                                    {i + 1}
-                                  </Text>
-                                </Box>
-                              </Grid.Col>
-                              <Grid.Col span={isMobile ? 12 : "auto"}>
-                                <DottedPreview content={question} />
-                              </Grid.Col>
-                            </Grid>
-                          ))}
-                        </Stack>
-                      )}
-                    />
-                  </Grid.Col>
-                </Grid>
+                <>
+                  <Group>
+                    <Title order={4}>{active.title}</Title>
+                    <ActionIcon variant='outline' color='yellow' component={Link} href="/question/edit/id">
+                      <IconPencil size="1.125rem" />
+                    </ActionIcon>
+                  </Group>
+                  <Divider my={16} />
+                  <Grid >
+                    <Grid.Col span={6}>
+                      <Information title="Tipe" value={active.type} />
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Information title="Jumlah Question" value={active.items.length} />
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Information title="Tanggal Dibuat" value={active.createdDate} />
+                    </Grid.Col>
+                    <Grid.Col span={6}>
+                      <Information title="Tanggal Diedit" value={active.lastUpdate} />
+                    </Grid.Col>
+                    <Grid.Col span={12}>
+                      <Information
+                        title="Question Item"
+                        value={(
+                          <Stack mt={10} spacing={16}>
+                            {active.items.map(({ question }, i) => (
+                              <Grid key={i}>
+                                <Grid.Col span={"content"}>
+                                  <Box
+                                    bg="violet"
+                                    sx={{
+                                      alignItems: 'center',
+                                      borderRadius: '50%',
+                                      color: 'white',
+                                      display: 'flex',
+                                      height: 32,
+                                      justifyContent: 'center',
+                                      width: 32
+                                    }}
+                                  >
+                                    <Text fz={16} fw={500}>
+                                      {i + 1}
+                                    </Text>
+                                  </Box>
+                                </Grid.Col>
+                                <Grid.Col span={isMobile ? 12 : "auto"}>
+                                  <DottedPreview content={question} />
+                                </Grid.Col>
+                              </Grid>
+                            ))}
+                          </Stack>
+                        )}
+                      />
+                    </Grid.Col>
+                  </Grid>
+                </>
               ) : (
                 <States
                   image={imageEmptyData.src}
