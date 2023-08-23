@@ -10,8 +10,14 @@ import States from '@/components/atoms/States';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import DottedPreview from '@/components/atoms/DottedPreview';
+import { modals } from '@mantine/modals';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '@/config/firebase';
+import { useRouter } from 'next/router';
+import popup from '@/utils/popup';
 
 const CreateQuestion = () => {
+  const router = useRouter();
   const isMobile = useWindowSize({ type: 'max', limit: 'md' });
 
   const form = useForm({
@@ -26,8 +32,42 @@ const CreateQuestion = () => {
     validateInputOnChange: true
   });
 
+  const submitData = (value) => async () => {
+    popup.loading();
+    const payload = {
+      items: value.item.map(({ question }) => ({ question, answer: question })),
+      title: value.title,
+      type: value.type,
+      cratedDate: new Date().toJSON(),
+      lastUpdate: '',
+    }
+
+    const ref = collection(db, 'question');
+    try {
+      await addDoc(ref, payload);
+      router.push('/question')
+      await popup.closeAll(),
+        await popup.alert({ type: 'success', message: 'Successfully submit data.' })
+    } catch (error) {
+      popup.alert({ type: 'error', message: 'Failed submit data.' })
+    }
+  }
+
   const onSubmit = (val) => {
-    console.log(val)
+    modals.openConfirmModal({
+      centered: true,
+      // title: (
+      //   <Title order={5}>Are you sure with your data?</Title>
+      // ),
+      title: 'Are you sure with your data?',
+      children: (
+        <Text size="sm">
+          Please check again carefully. Your data will be processed once it is submitted.
+        </Text>
+      ),
+      labels: { confirm: 'Confirm', cancel: 'Check Again' },
+      onConfirm: submitData(val),
+    });
   }
 
   return (

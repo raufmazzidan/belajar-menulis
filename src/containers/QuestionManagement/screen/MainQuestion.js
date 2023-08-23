@@ -1,8 +1,8 @@
-import { ActionIcon, Box, Button, Divider, Grid, Group, Input, Loader, Paper, Stack, Text, Title } from '@mantine/core';
-import React, { useState } from 'react';
+import { ActionIcon, Box, Button, Divider, Flex, Grid, Group, Input, Loader, Paper, Skeleton, Stack, Text, Title } from '@mantine/core';
+import React, { useEffect, useState } from 'react';
 import { Raleway_Dots } from 'next/font/google'
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
-import { IconPencil, IconPlus, IconSearch } from '@tabler/icons-react';
+import { IconCheck, IconPencil, IconPlus, IconSearch, IconTrash } from '@tabler/icons-react';
 import ListPacks from '../element/ListPacks';
 import Link from 'next/link';
 import States from '@/components/atoms/States';
@@ -10,6 +10,8 @@ import imageEmptyData from '@/assets/empty-data.svg';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import DottedPreview from '@/components/atoms/DottedPreview';
 import Information from '@/components/atoms/Information';
+import { collection, deleteDoc, doc, getDocs, onSnapshot } from 'firebase/firestore';
+import { db } from '@/config/firebase';
 
 // If loading a variable font, you don't need to specify the font weight
 const dots = Raleway_Dots({ subsets: ['latin'], weight: ['400'] })
@@ -17,72 +19,52 @@ const dots = Raleway_Dots({ subsets: ['latin'], weight: ['400'] })
 const MainQuestion = () => {
   const isMobile = useWindowSize({ type: 'max', limit: 'md' });
 
-  const [data, setData] = useState([
-    {
-      id: 'id_1',
-      title: 'Alfabet Bergaris Huruf A-E',
-      type: 'Huruf Bergaris',
-      lastUpdate: '12/12/2022',
-      createdDate: '12/12/2022',
-      items: [
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-      ]
-    },
-    {
-      id: 'id_2',
-      title: 'Alfabet Bergaris Huruf a-e',
-      type: 'Huruf Bergaris',
-      createdDate: '12/11/2022',
-      lastUpdate: '22/22/2022',
-      items: [
-        { question: 'aaaaaa', answer: 'aaaaaa' },
-        { question: 'bbbbbb', answer: 'bbbbbb' },
-        { question: 'cccccc', answer: 'cccccc' },
-        { question: 'dddddd', answer: 'dddddd' },
-        { question: 'eeeeee', answer: 'eeeeee' },
-      ]
-    },
-    {
-      id: 'id_3',
-      title: 'Alfabet Bergaris Huruf A-E',
-      type: 'Huruf Bergaris',
-      lastUpdate: '12/12/2022',
-      createdDate: '12/12/2022',
-      items: [
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-        { question: 'AaBbCc', answer: 'AaBbCc' },
-      ]
-    },
-    {
-      id: 'id_4',
-      title: 'Alfabet Bergaris Huruf A-E',
-      type: 'Huruf Bergaris',
-      lastUpdate: '12/12/2022',
-      createdDate: '12/12/2022',
-      items: [
-        { question: 'xxssxsx', answer: 'xxssxsx' },
-        { question: 'akjsdlak', answer: 'akjsdlak' },
-        { question: 'xxssxsx', answer: 'xxssxsx' },
-        { question: 'akjsdlak', answer: 'akjsdlak' },
-        { question: 'xxssxsx', answer: 'xxssxsx' },
-        { question: 'akjsdlak', answer: 'akjsdlak' },
-        { question: 'xxssxsx', answer: 'xxssxsx' },
-        { question: 'akjsdlak', answer: 'akjsdlak' },
-        { question: 'xxssxsx', answer: 'xxssxsx' },
-        { question: 'akjsdlak', answer: 'akjsdlak' },
-      ]
-    }
-  ])
-
+  const [data, setData] = useState([])
   const [active, setActive] = useState({ items: [] })
+  const [loading, setLoading] = useState(true);
+
+  const getData = async () => {
+    setLoading(true);
+    const ref = collection(db, 'question');
+    try {
+      const response = await getDocs(ref);
+      const data = response.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setData(data)
+      setLoading(false)
+    } catch (error) {
+      setData([])
+      setLoading(false)
+    }
+  }
+
+
+  const deleteData = (id) => async () => {
+    const ref = doc(db, 'question', id);
+    try {
+      await deleteDoc(ref);
+      setActive({ items: [] })
+    } catch (error) {
+      // setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    const ref = collection(db, 'question');
+    const getRealtimeData = onSnapshot(
+      ref,
+      (response) => {
+        const data = response.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setData(data);
+        setLoading(false);
+      },
+      () => {
+        setLoading(false)
+      });
+
+    return () => {
+      getRealtimeData()
+    }
+  }, [])
 
   return (
     <>
@@ -122,12 +104,26 @@ const MainQuestion = () => {
                 />
               </Box>
               <Box>
-                <ListPacks
-                  data={data}
-                  active={active}
-                  setData={setData}
-                  setActive={setActive}
-                />
+                {loading ? (
+                  <Skeleton height={400} />
+                ) : (
+                  <>
+                    {data.length > 0 ? (
+                      <ListPacks
+                        data={data}
+                        active={active}
+                        setData={setData}
+                        setActive={setActive}
+                      />
+                    ) : (
+                      <States
+                        image={imageEmptyData.src}
+                        message="Data Not Found"
+                        description="Tidak ada hasil yang sesuai dengan permintaan Anda"
+                      />
+                    )}
+                  </>
+                )}
               </Box>
             </Box>
           </Grid.Col>
@@ -143,12 +139,15 @@ const MainQuestion = () => {
               </Group> */}
               {active.items?.length ? (
                 <>
-                  <Group>
+                  <Flex gap={16}>
                     <Title order={4}>{active.title}</Title>
                     <ActionIcon variant='outline' color='yellow' component={Link} href="/question/edit/id">
                       <IconPencil size="1.125rem" />
                     </ActionIcon>
-                  </Group>
+                    <ActionIcon variant='outline' color='red' onClick={deleteData(active.id)}>
+                      <IconTrash size="1.125rem" />
+                    </ActionIcon>
+                  </Flex>
                   <Divider my={16} />
                   <Grid >
                     <Grid.Col span={6}>
