@@ -1,4 +1,4 @@
-import { modals, closeModal, closeAllModals } from "@mantine/modals";
+import { modals, closeModal, closeAllModals } from '@mantine/modals';
 
 const loading = () => {
   modals.openContextModal({
@@ -6,8 +6,8 @@ const loading = () => {
     id: 'loading',
     size: 'xs',
     withCloseButton: false,
-  })
-}
+  });
+};
 
 const alert = ({ type, message }) => {
   closeModal('loading');
@@ -17,14 +17,14 @@ const alert = ({ type, message }) => {
     size: 'xs',
     withCloseButton: false,
     innerProps: { type, message },
-  })
-}
+  });
+};
 
 const popup = {
   loading,
   alert,
   closeAll: closeAllModals,
-  close: closeModal
-}
+  close: closeModal,
+};
 
 export default popup;

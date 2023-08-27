@@ -1,4 +1,4 @@
-import { useMediaQuery } from "@mantine/hooks";
+import { useMediaQuery } from '@mantine/hooks';
 
 const useWindowSize = ({ type, limit }) => {
   const breakpoints = {
@@ -10,6 +10,6 @@ const useWindowSize = ({ type, limit }) => {
   };
 
   return useMediaQuery(`(${type}-width: ${breakpoints[limit]})`);
-}
+};
 
 export default useWindowSize;

@@ -1,12 +1,7 @@
 import { Box, Divider, Drawer, Navbar, ScrollArea } from '@mantine/core';
 import React, { useEffect } from 'react';
 import Logo from '../atoms/Logo';
-import {
-  IconLayoutDashboard,
-  IconAlphabetGreek,
-  IconUsersGroup,
-  IconChartPie2,
-} from '@tabler/icons-react';
+import { IconLayoutDashboard, IconAlphabetGreek, IconUsersGroup, IconChartPie2 } from '@tabler/icons-react';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import NavbarItem from '../molecules/NavbarItem';
 import { useRouter } from 'next/router';
@@ -29,15 +24,16 @@ const mockdata = [
   // },
 ];
 
-
 const Navigation = (props) => {
   const router = useRouter();
-  const { drawer: { drawerOpened, closeDrawer } } = props;
+  const {
+    drawer: { drawerOpened, closeDrawer },
+  } = props;
   const isMobile = useWindowSize({ type: 'max', limit: 'sm' });
 
   useEffect(() => {
-    closeDrawer()
-  }, [router.asPath, closeDrawer])
+    closeDrawer();
+  }, [router.asPath, closeDrawer]);
 
   if (isMobile) {
     return (
@@ -47,23 +43,22 @@ const Navigation = (props) => {
         closeButtonProps={{ size: 'md' }}
         size="300px"
         padding="md"
-        title={(
+        title={
           <Box h={47}>
             <Logo />
           </Box>
-        )}
+        }
         overlayProps={{ opacity: 0.5, blur: 4 }}
         zIndex={1000000}
       >
-
-        <Divider color='gray.2' />
+        <Divider color="gray.2" />
         <Box pt={16}>
           {mockdata.map((item) => (
             <NavbarItem {...item} key={item.label} />
           ))}
         </Box>
       </Drawer>
-    )
+    );
   }
 
   return (
@@ -76,7 +71,7 @@ const Navigation = (props) => {
         </div>
       </Navbar.Section>
     </Navbar>
-  )
-}
+  );
+};
 
 export default Navigation;

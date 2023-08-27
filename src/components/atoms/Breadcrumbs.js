@@ -6,31 +6,31 @@ const Breadcrumbs = ({ data = [] }) => {
   return (
     <BaseBreadcrumbs
       sx={{ minHeight: 36 }}
-      separator={(
-        <Box component='span' pt="4px">
+      separator={
+        <Box component="span" pt="4px">
           <IconChevronRight size={20} />
         </Box>
-      )}
+      }
     >
       {data.map(({ label, href }, index) => {
         if (href) {
           return (
-            <Anchor key={href} color='grey' href={href}>
-              <Title weight={"normal"} order={3}>
+            <Anchor key={href} color="grey" href={href}>
+              <Title weight={'normal'} order={3}>
                 {label}
               </Title>
             </Anchor>
-          )
+          );
         } else {
           return (
-            <Title key={label} color='violet' order={3}>
+            <Title key={label} color="violet" order={3}>
               {label}
             </Title>
-          )
+          );
         }
       })}
     </BaseBreadcrumbs>
-  )
-}
+  );
+};
 
 export default Breadcrumbs;

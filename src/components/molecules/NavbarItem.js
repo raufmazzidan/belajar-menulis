@@ -1,12 +1,5 @@
 import { useState } from 'react';
-import {
-  Group,
-  Box,
-  Collapse,
-  ThemeIcon,
-  Text,
-  UnstyledButton,
-} from '@mantine/core';
+import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton } from '@mantine/core';
 import { IconChevronRight } from '@tabler/icons-react';
 import Link from 'next/link';
 
@@ -73,11 +66,9 @@ const NavbarItem = ({ icon: Icon, label, initiallyOpened, link, childs }) => {
           )}
         </Group>
       </UnstyledButton>
-      {hasChild && (
-        <Collapse in={opened}>{items}</Collapse>
-      )}
+      {hasChild && <Collapse in={opened}>{items}</Collapse>}
     </>
   );
-}
+};
 
 export default NavbarItem;

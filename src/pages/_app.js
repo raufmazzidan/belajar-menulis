@@ -2,7 +2,7 @@ import Head from 'next/head';
 import { MantineProvider } from '@mantine/core';
 import Layout from '@/components/organismComplexs/Layout';
 import theme from '@/styles/theme';
-import '@/styles/styles.css'
+import '@/styles/styles.css';
 import RouterLoading from '@/components/atoms/RouterLoading';
 import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
@@ -19,20 +19,16 @@ export default function App(props) {
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
 
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={theme}
-      >
+      <MantineProvider withGlobalStyles withNormalizeCSS theme={theme}>
         <ModalsProvider
           modals={{
             loading: ModalLoading,
-            alert: ModalAlert
+            alert: ModalAlert,
           }}
           modalProps={{
             centered: true,
             closeOnClickOutside: false,
-            closeOnEscape: false
+            closeOnEscape: false,
           }}
         >
           <RouterLoading />

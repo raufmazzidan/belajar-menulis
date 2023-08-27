@@ -1,14 +1,4 @@
-import {
-  createStyles,
-  Image,
-  Container,
-  Title,
-  Text,
-  Button,
-  SimpleGrid,
-  rem,
-  Box,
-} from '@mantine/core';
+import { createStyles, Image, Container, Title, Text, Button, SimpleGrid, rem, Box } from '@mantine/core';
 import image404 from '@/assets/404.svg';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import Link from 'next/link';
@@ -52,22 +42,32 @@ const useStyles = createStyles((theme) => ({
 export default function ErrorScreen() {
   const { classes } = useStyles();
 
-  const isMobile = useWindowSize({ type: 'max', limit: 'sm' })
+  const isMobile = useWindowSize({ type: 'max', limit: 'sm' });
 
   return (
     <Box sx={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 80 }}>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 80, justifyContent: 'center', flexDirection: isMobile ? 'column-reverse' : 'row' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 80,
+          justifyContent: 'center',
+          flexDirection: isMobile ? 'column-reverse' : 'row',
+        }}
+      >
         <Box sx={{ maxWidth: 600 }}>
-          <Title order={1} fz={34} fw={900} mb={8}>Something is not right...</Title>
+          <Title order={1} fz={34} fw={900} mb={8}>
+            Something is not right...
+          </Title>
           <Text color="dimmed" size="lg">
-            Page you are trying to open does not exist. You may have mistyped the address, or the
-            page has been moved to another URL. If you think this is an error contact support.
+            Page you are trying to open does not exist. You may have mistyped the address, or the page has been moved to
+            another URL. If you think this is an error contact support.
           </Text>
           <Button component={Link} mt="xl" href="/">
             Get back to home page
           </Button>
         </Box>
-        <Image src={image404.src} alt='error' width={isMobile ? 300 : 424} />
+        <Image src={image404.src} alt="error" width={isMobile ? 300 : 424} />
       </Box>
     </Box>
   );

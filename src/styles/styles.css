@@ -25,7 +25,7 @@ body {
 @font-face {
   font-family: 'Print Dashed';
   src: url('/PrintDashed.woff2') format('woff2'),
-      url('/PrintDashed.woff') format('woff');
+    url('/PrintDashed.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -34,7 +34,7 @@ body {
 @font-face {
   font-family: 'Print Clearly';
   src: url('/PrintClearly.woff2') format('woff2'),
-      url('/PrintClearly.woff') format('woff');
+    url('/PrintClearly.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -43,9 +43,8 @@ body {
 @font-face {
   font-family: 'Print';
   src: url('/PrintBold.woff2') format('woff2'),
-      url('/PrintBold.woff') format('woff');
+    url('/PrintBold.woff') format('woff');
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
-

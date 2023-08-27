@@ -1,6 +1,21 @@
-import { ActionIcon, Box, Button, Divider, Flex, Grid, Group, Input, Loader, Paper, Skeleton, Stack, Text, Title } from '@mantine/core';
+import {
+  ActionIcon,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Grid,
+  Group,
+  Input,
+  Loader,
+  Paper,
+  Skeleton,
+  Stack,
+  Text,
+  Title,
+} from '@mantine/core';
 import React, { useEffect, useState } from 'react';
-import { Raleway_Dots } from 'next/font/google'
+import { Raleway_Dots } from 'next/font/google';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import { IconCheck, IconPencil, IconPlus, IconSearch, IconTrash } from '@tabler/icons-react';
 import ListPacks from '../element/ListPacks';
@@ -14,13 +29,13 @@ import { collection, deleteDoc, doc, getDocs, onSnapshot } from 'firebase/firest
 import { db } from '@/config/firebase';
 
 // If loading a variable font, you don't need to specify the font weight
-const dots = Raleway_Dots({ subsets: ['latin'], weight: ['400'] })
+const dots = Raleway_Dots({ subsets: ['latin'], weight: ['400'] });
 
 const MainQuestion = () => {
   const isMobile = useWindowSize({ type: 'max', limit: 'md' });
 
-  const [data, setData] = useState([])
-  const [active, setActive] = useState({ items: [] })
+  const [data, setData] = useState([]);
+  const [active, setActive] = useState({ items: [] });
   const [loading, setLoading] = useState(true);
 
   const getData = async () => {
@@ -28,43 +43,46 @@ const MainQuestion = () => {
     const ref = collection(db, 'question');
     try {
       const response = await getDocs(ref);
-      const data = response.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setData(data)
-      setLoading(false)
+      const data = response.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setData(data);
+      setLoading(false);
     } catch (error) {
-      setData([])
-      setLoading(false)
+      setData([]);
+      setLoading(false);
     }
-  }
-
+  };
 
   const deleteData = (id) => async () => {
     const ref = doc(db, 'question', id);
     try {
       await deleteDoc(ref);
-      setActive({ items: [] })
+      setActive({ items: [] });
     } catch (error) {
       // setLoading(false)
     }
-  }
+  };
 
   useEffect(() => {
     const ref = collection(db, 'question');
     const getRealtimeData = onSnapshot(
       ref,
       (response) => {
-        const data = response.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const data = response.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
         setData(data);
         setLoading(false);
       },
       () => {
-        setLoading(false)
-      });
+        setLoading(false);
+      }
+    );
 
     return () => {
-      getRealtimeData()
-    }
-  }, [])
+      getRealtimeData();
+    };
+  }, []);
 
   return (
     <>
@@ -80,28 +98,22 @@ const MainQuestion = () => {
               sx={(theme) => ({
                 borderRight: isMobile ? 'none' : `1px solid ${theme.colors.gray[3]}`,
                 height: '100%',
-                maxHeight: isMobile ? "70vh" : "100%",
+                maxHeight: isMobile ? '70vh' : '100%',
                 overflow: 'auto',
-                position: 'relative'
+                position: 'relative',
               })}
             >
-              <Box sx={{ position: 'sticky', top: 0, background: 'white', }} pt={32} pb={16}>
-                <Group position='apart'>
+              <Box sx={{ position: 'sticky', top: 0, background: 'white' }} pt={32} pb={16}>
+                <Group position="apart">
                   <Group spacing={8}>
                     <Title order={4}>Question Pack</Title>
-                    {/* <Badge radius="xs">
-                    10
-                  </Badge> */}
                   </Group>
-                  <ActionIcon variant='outline' color='violet' component={Link} href="/question/create">
+                  <ActionIcon variant="outline" color="violet" component={Link} href="/question/create">
                     <IconPlus size="1.125rem" />
                   </ActionIcon>
                 </Group>
                 <Divider my={16} />
-                <Input
-                  icon={<IconSearch size="1rem" />}
-                  placeholder="Search pack"
-                />
+                <Input icon={<IconSearch size="1rem" />} placeholder="Search pack" />
               </Box>
               <Box>
                 {loading ? (
@@ -109,12 +121,7 @@ const MainQuestion = () => {
                 ) : (
                   <>
                     {data.length > 0 ? (
-                      <ListPacks
-                        data={data}
-                        active={active}
-                        setData={setData}
-                        setActive={setActive}
-                      />
+                      <ListPacks data={data} active={active} setData={setData} setActive={setActive} />
                     ) : (
                       <States
                         image={imageEmptyData.src}
@@ -130,26 +137,23 @@ const MainQuestion = () => {
           <Grid.Col
             span={isMobile ? 12 : 7}
             sx={(theme) => ({
-              borderTop: isMobile ? `1px solid ${theme.colors.gray[3]}` : 'none'
+              borderTop: isMobile ? `1px solid ${theme.colors.gray[3]}` : 'none',
             })}
           >
             <Box sx={{ minHeight: 'calc(100vh - 248px)' }} p={32}>
-              {/* <Group position='center' pt={200}>
-                <Loader />
-              </Group> */}
               {active.items?.length ? (
                 <>
                   <Flex gap={16}>
                     <Title order={4}>{active.title}</Title>
-                    <ActionIcon variant='outline' color='yellow' component={Link} href="/question/edit/id">
+                    <ActionIcon variant="outline" color="yellow" component={Link} href="/question/edit/id">
                       <IconPencil size="1.125rem" />
                     </ActionIcon>
-                    <ActionIcon variant='outline' color='red' onClick={deleteData(active.id)}>
+                    <ActionIcon variant="outline" color="red" onClick={deleteData(active.id)}>
                       <IconTrash size="1.125rem" />
                     </ActionIcon>
                   </Flex>
                   <Divider my={16} />
-                  <Grid >
+                  <Grid>
                     <Grid.Col span={6}>
                       <Information title="Tipe" value={active.type} />
                     </Grid.Col>
@@ -165,11 +169,11 @@ const MainQuestion = () => {
                     <Grid.Col span={12}>
                       <Information
                         title="Question Item"
-                        value={(
+                        value={
                           <Stack mt={10} spacing={16}>
                             {active.items.map(({ question }, i) => (
                               <Grid key={i}>
-                                <Grid.Col span={"content"}>
+                                <Grid.Col span={'content'}>
                                   <Box
                                     bg="violet"
                                     sx={{
@@ -179,7 +183,7 @@ const MainQuestion = () => {
                                       display: 'flex',
                                       height: 32,
                                       justifyContent: 'center',
-                                      width: 32
+                                      width: 32,
                                     }}
                                   >
                                     <Text fz={16} fw={500}>
@@ -187,13 +191,13 @@ const MainQuestion = () => {
                                     </Text>
                                   </Box>
                                 </Grid.Col>
-                                <Grid.Col span={isMobile ? 12 : "auto"}>
+                                <Grid.Col span={isMobile ? 12 : 'auto'}>
                                   <DottedPreview content={question} />
                                 </Grid.Col>
                               </Grid>
                             ))}
                           </Stack>
-                        )}
+                        }
                       />
                     </Grid.Col>
                   </Grid>
@@ -210,7 +214,7 @@ const MainQuestion = () => {
         </Grid>
       </Paper>
     </>
-  )
-}
+  );
+};
 
 export default MainQuestion;

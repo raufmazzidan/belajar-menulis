@@ -1,6 +1,6 @@
 const theme = {
   colorScheme: 'light',
-  primaryColor: 'violet'
-}
+  primaryColor: 'violet',
+};
 
 export default theme;

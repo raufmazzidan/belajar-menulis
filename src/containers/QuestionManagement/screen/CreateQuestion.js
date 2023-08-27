@@ -1,5 +1,21 @@
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
-import { Box, Button, Center, Checkbox, Divider, Flex, Grid, Group, Image, Input, Paper, Radio, Stack, Text, TextInput, Title } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Center,
+  Divider,
+  Flex,
+  Grid,
+  Group,
+  Image,
+  Input,
+  Paper,
+  Radio,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
 import { useForm } from '@mantine/form';
 import React from 'react';
 import validate from '../utils/validate';
@@ -24,12 +40,12 @@ const CreateQuestion = () => {
     initialValues: {
       item: [
         {
-          question: ''
-        }
-      ]
+          question: '',
+        },
+      ],
     },
     validate: validate,
-    validateInputOnChange: true
+    validateInputOnChange: true,
   });
 
   const submitData = (value) => async () => {
@@ -38,48 +54,36 @@ const CreateQuestion = () => {
       items: value.item.map(({ question }) => ({ question, answer: question })),
       title: value.title,
       type: value.type,
-      cratedDate: new Date().toJSON(),
+      createdDate: new Date().toJSON(),
       lastUpdate: '',
-    }
+    };
 
     const ref = collection(db, 'question');
     try {
       await addDoc(ref, payload);
-      router.push('/question')
-      await popup.closeAll(),
-        await popup.alert({ type: 'success', message: 'Successfully submit data.' })
+      router.push('/question');
+      await popup.closeAll();
+      await popup.alert({ type: 'success', message: 'Successfully submit data.' });
     } catch (error) {
-      popup.alert({ type: 'error', message: 'Failed submit data.' })
+      popup.alert({ type: 'error', message: 'Failed submit data.' });
     }
-  }
+  };
 
   const onSubmit = (val) => {
     modals.openConfirmModal({
       centered: true,
-      // title: (
-      //   <Title order={5}>Are you sure with your data?</Title>
-      // ),
-      title: 'Are you sure with your data?',
-      children: (
-        <Text size="sm">
-          Please check again carefully. Your data will be processed once it is submitted.
-        </Text>
-      ),
+      title: <Title order={5}>Are you sure with your data?</Title>,
+      children: <Text size="sm">Please check again carefully. Your data will be processed once it is submitted.</Text>,
       labels: { confirm: 'Confirm', cancel: 'Check Again' },
       onConfirm: submitData(val),
     });
-  }
+  };
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
-      <Group mb={32} position='apart'>
-        <Breadcrumbs
-          data={[
-            { label: 'Question Management', href: '/question' },
-            { label: 'Create' }
-          ]}
-        />
-        <Button type='submit'>Submit</Button>
+      <Group mb={32} position="apart">
+        <Breadcrumbs data={[{ label: 'Question Management', href: '/question' }, { label: 'Create' }]} />
+        <Button type="submit">Submit</Button>
       </Group>
       <Paper radius={0} withBorder>
         <Grid>
@@ -94,40 +98,36 @@ const CreateQuestion = () => {
             >
               <Title order={4}>Information</Title>
               <Divider />
-              <TextInput
-                withAsterisk
-                label="Judul Question"
-                // placeholder="Alfabet Bergaris Huruf A-E"
-                {...form.getInputProps('title')}
-              />
-              <Radio.Group
-                label="Pilih Tipe Question"
-                withAsterisk
-                {...form.getInputProps('type')}
-              >
+              <TextInput withAsterisk label="Judul Question" {...form.getInputProps('title')} />
+              <Radio.Group label="Pilih Tipe Question" withAsterisk {...form.getInputProps('type')}>
                 <Stack mt="xs">
                   <Radio
                     value="dot"
-                    label={(
+                    label={
                       <Flex
                         display="block"
                         h={isMobile ? 280 : 200}
                         mb={16}
                         gap={16}
-                        align={isMobile ? "start" : "center"}
+                        align={isMobile ? 'start' : 'center'}
                         direction={isMobile ? 'column' : 'row'}
                       >
                         <Paper withBorder>
-                          <Image height={200} width={200} radius="md" src={imageDot.src} alt="Question Dot" withPlaceholder />
+                          <Image
+                            height={200}
+                            width={200}
+                            radius="md"
+                            src={imageDot.src}
+                            alt="Question Dot"
+                            withPlaceholder
+                          />
                         </Paper>
                         <Box>
                           <Title order={5}>Huruf Bergaris</Title>
-                          <Text>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                          </Text>
+                          <Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
                         </Box>
                       </Flex>
-                    )}
+                    }
                   />
                 </Stack>
               </Radio.Group>
@@ -138,7 +138,7 @@ const CreateQuestion = () => {
               spacing={16}
               p={32}
               sx={(theme) => ({
-                borderTop: isMobile ? `1px solid ${theme.colors.gray[3]}` : 'none'
+                borderTop: isMobile ? `1px solid ${theme.colors.gray[3]}` : 'none',
               })}
             >
               <Title order={4}>Question Item</Title>
@@ -162,17 +162,26 @@ const CreateQuestion = () => {
                           {form.values.item.map((_, index) => (
                             <Draggable key={index} index={index} draggableId={index.toString()}>
                               {(provided) => (
-                                <Paper withBorder mt={16} p={16} key={index} ref={provided.innerRef} {...provided.draggableProps}>
-                                  <Group position='apart' sx={{ minHeight: 30 }}>
+                                <Paper
+                                  withBorder
+                                  mt={16}
+                                  p={16}
+                                  key={index}
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                >
+                                  <Group position="apart" sx={{ minHeight: 30 }}>
                                     <Center {...provided.dragHandleProps}>
                                       <IconGridDots size={16} />
                                     </Center>
-                                    <Title sx={{ flexGrow: 1 }} order={6}>Nomor {index + 1}</Title>
+                                    <Title sx={{ flexGrow: 1 }} order={6}>
+                                      Nomor {index + 1}
+                                    </Title>
                                     {form.values.item.length > 1 && (
                                       <Button
-                                        size='xs'
-                                        color='red'
-                                        variant='subtle'
+                                        size="xs"
+                                        color="red"
+                                        variant="subtle"
                                         leftIcon={<IconTrash size={16} />}
                                         onClick={() => form.removeListItem('item', index)}
                                       >
@@ -202,9 +211,9 @@ const CreateQuestion = () => {
                   {form.values.item?.length < 10 && (
                     <Center>
                       <Button
-                        size='xs'
-                        color='green'
-                        variant='subtle'
+                        size="xs"
+                        color="green"
+                        variant="subtle"
                         leftIcon={<IconPlus size={16} />}
                         onClick={() => form.insertListItem('item', { question: '' })}
                       >
@@ -219,7 +228,7 @@ const CreateQuestion = () => {
         </Grid>
       </Paper>
     </form>
-  )
-}
+  );
+};
 
-export default CreateQuestion
+export default CreateQuestion;

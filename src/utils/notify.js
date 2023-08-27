@@ -1,5 +1,5 @@
-const { notifications } = require("@mantine/notifications");
-import {  NotificationProps } from "@mantine/core";
+const { notifications } = require('@mantine/notifications');
+import { NotificationProps } from '@mantine/core';
 
 /**
  *
@@ -9,7 +9,6 @@ import {  NotificationProps } from "@mantine/core";
  * @returns {React.FC} -n
  */
 
-
 const show = (properties) => {
   notifications.show({
     ...properties,
@@ -18,12 +17,12 @@ const show = (properties) => {
     sx: {
       // height: 100,
       // padding: 24
-    }
+    },
   });
-}
+};
 
 const notify = {
-  show
-}
+  show,
+};
 
 export default notify;

@@ -1,3 +1,3 @@
-import MainQuestion from "@/containers/QuestionManagement/screen/MainQuestion";
+import { MainQuestion } from '@/containers/QuestionManagement';
 
 export default MainQuestion;

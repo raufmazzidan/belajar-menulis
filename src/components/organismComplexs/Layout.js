@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 const Layout = ({ children }) => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
-  const router = useRouter()
+  const router = useRouter();
 
   if (['/404'].includes(router.pathname)) {
     return children;
@@ -26,13 +26,10 @@ const Layout = ({ children }) => {
           },
         })}
       >
-        <Box p={16}>
-          {children}
-        </Box>
+        <Box p={16}>{children}</Box>
       </AppShell>
-
     </>
   );
-}
+};
 
 export default Layout;

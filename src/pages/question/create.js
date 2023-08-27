@@ -1,3 +1,3 @@
-import CreateQuestion from "@/containers/QuestionManagement/screen/CreateQuestion";
+import { CreateQuestion } from '@/containers/QuestionManagement';
 
-export default CreateQuestion
+export default CreateQuestion;

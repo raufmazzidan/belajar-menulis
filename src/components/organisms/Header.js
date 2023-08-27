@@ -1,35 +1,24 @@
-import {
-  Header,
-  Group,
-  UnstyledButton,
-  Text,
-  Burger,
-  rem,
-  Menu,
-  Avatar,
-} from '@mantine/core';
-import {
-  IconChevronDown,
-  IconUser,
-} from '@tabler/icons-react';
+import { Header, Group, UnstyledButton, Text, Burger, rem, Menu, Avatar } from '@mantine/core';
+import { IconChevronDown, IconUser } from '@tabler/icons-react';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import Logo from '../atoms/Logo';
 
-
 export function HeaderMegaMenu(props) {
-  const { drawer: { drawerOpened, toggleDrawer } } = props;
+  const {
+    drawer: { drawerOpened, toggleDrawer },
+  } = props;
   const isMobile = useWindowSize({ type: 'max', limit: 'sm' });
 
   return (
     <>
       <Header height={80} px={isMobile ? 32 : 80}>
-        <Group position={"apart"} sx={{ height: '100%' }}>
+        <Group position={'apart'} sx={{ height: '100%' }}>
           <Group>
-            <Burger opened={drawerOpened} onClick={toggleDrawer} hidden={!isMobile} bga='dark.4' />
+            <Burger opened={drawerOpened} onClick={toggleDrawer} hidden={!isMobile} bga="dark.4" />
             <Logo />
           </Group>
-          <Group align='right'>
-            <Menu shadow="md" width={200} position='bottom-end'>
+          <Group align="right">
+            <Menu shadow="md" width={200} position="bottom-end">
               <Menu.Target>
                 <UnstyledButton>
                   <Group spacing={7}>
@@ -47,9 +36,7 @@ export function HeaderMegaMenu(props) {
               </Menu.Target>
 
               <Menu.Dropdown>
-                {isMobile && (
-                  <Menu.Label>Rauf Mazzidan</Menu.Label>
-                )}
+                {isMobile && <Menu.Label>Rauf Mazzidan</Menu.Label>}
                 <Menu.Item icon={<IconUser size={14} />}>Logout</Menu.Item>
               </Menu.Dropdown>
             </Menu>

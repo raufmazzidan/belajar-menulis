@@ -1,3 +1,3 @@
-import MenteeManagement from "@/containers/MenteeManagement";
+import MenteeManagement from '@/containers/MenteeManagement';
 
 export default MenteeManagement;
