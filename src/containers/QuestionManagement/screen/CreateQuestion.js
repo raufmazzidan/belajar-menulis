@@ -56,6 +56,7 @@ const CreateQuestion = () => {
       type: value.type,
       createdDate: new Date().toJSON(),
       lastUpdate: '',
+      level: 0,
     };
 
     const ref = collection(db, 'question');

@@ -1,88 +1,17 @@
-import {
-  ActionIcon,
-  Box,
-  Button,
-  Divider,
-  Flex,
-  Grid,
-  Group,
-  Input,
-  Loader,
-  Paper,
-  Skeleton,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
-import React, { useEffect, useState } from 'react';
-import { Raleway_Dots } from 'next/font/google';
+import { ActionIcon, Box, Divider, Flex, Grid, Group, Input, Paper, Skeleton, Stack, Text, Title } from '@mantine/core';
+import React from 'react';
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
-import { IconCheck, IconPencil, IconPlus, IconSearch, IconTrash } from '@tabler/icons-react';
+import { IconPencil, IconPlus, IconSearch, IconTrash } from '@tabler/icons-react';
 import ListPacks from '../element/ListPacks';
 import Link from 'next/link';
 import States from '@/components/atoms/States';
 import imageEmptyData from '@/assets/empty-data.svg';
-import useWindowSize from '@/utils/hooks/useWindowSize';
 import DottedPreview from '@/components/atoms/DottedPreview';
 import Information from '@/components/atoms/Information';
-import { collection, deleteDoc, doc, getDocs, onSnapshot } from 'firebase/firestore';
-import { db } from '@/config/firebase';
-
-// If loading a variable font, you don't need to specify the font weight
-const dots = Raleway_Dots({ subsets: ['latin'], weight: ['400'] });
+import useMainQuestion from '../hooks/useMainQuestion';
 
 const MainQuestion = () => {
-  const isMobile = useWindowSize({ type: 'max', limit: 'md' });
-
-  const [data, setData] = useState([]);
-  const [active, setActive] = useState({ items: [] });
-  const [loading, setLoading] = useState(true);
-
-  const getData = async () => {
-    setLoading(true);
-    const ref = collection(db, 'question');
-    try {
-      const response = await getDocs(ref);
-      const data = response.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setData(data);
-      setLoading(false);
-    } catch (error) {
-      setData([]);
-      setLoading(false);
-    }
-  };
-
-  const deleteData = (id) => async () => {
-    const ref = doc(db, 'question', id);
-    try {
-      await deleteDoc(ref);
-      setActive({ items: [] });
-    } catch (error) {
-      // setLoading(false)
-    }
-  };
-
-  useEffect(() => {
-    const ref = collection(db, 'question');
-    const getRealtimeData = onSnapshot(
-      ref,
-      (response) => {
-        const data = response.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setData(data);
-        setLoading(false);
-      },
-      () => {
-        setLoading(false);
-      }
-    );
-
-    return () => {
-      getRealtimeData();
-    };
-  }, []);
+  const { active, data, onDeleteData, isMobile, loading, setData, setActive } = useMainQuestion();
 
   return (
     <>
@@ -91,7 +20,7 @@ const MainQuestion = () => {
       </Box>
       <Paper radius={0} withBorder>
         <Grid gutter={0}>
-          <Grid.Col span={isMobile ? 12 : 5}>
+          <Grid.Col span={isMobile ? 12 : 'content'}>
             <Box
               px={32}
               pb={32}
@@ -101,9 +30,10 @@ const MainQuestion = () => {
                 maxHeight: isMobile ? '70vh' : '100%',
                 overflow: 'auto',
                 position: 'relative',
+                width: isMobile ? 'auto' : 440,
               })}
             >
-              <Box sx={{ position: 'sticky', top: 0, background: 'white' }} pt={32} pb={16}>
+              <Box sx={{ position: 'sticky', top: 0, background: 'white' }} pt={32}>
                 <Group position="apart">
                   <Group spacing={8}>
                     <Title order={4}>Question Pack</Title>
@@ -113,7 +43,7 @@ const MainQuestion = () => {
                   </ActionIcon>
                 </Group>
                 <Divider my={16} />
-                <Input icon={<IconSearch size="1rem" />} placeholder="Search pack" />
+                {/* <Input icon={<IconSearch size="1rem" />} placeholder="Search pack" /> */}
               </Box>
               <Box>
                 {loading ? (
@@ -145,10 +75,10 @@ const MainQuestion = () => {
                 <>
                   <Flex gap={16}>
                     <Title order={4}>{active.title}</Title>
-                    <ActionIcon variant="outline" color="yellow" component={Link} href="/question/edit/id">
+                    <ActionIcon variant="outline" color="yellow" component={Link} href={`/question/edit/${active.id}`}>
                       <IconPencil size="1.125rem" />
                     </ActionIcon>
-                    <ActionIcon variant="outline" color="red" onClick={deleteData(active.id)}>
+                    <ActionIcon variant="outline" color="red" onClick={onDeleteData(active.id)}>
                       <IconTrash size="1.125rem" />
                     </ActionIcon>
                   </Flex>

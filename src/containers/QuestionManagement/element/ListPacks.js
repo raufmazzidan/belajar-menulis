@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable, resetServerContext } from 'react-beautiful-dnd';
 import { IconGridDots } from '@tabler/icons-react';
 import { Box, Flex, Text, Title } from '@mantine/core';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '@/config/firebase';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -12,8 +14,22 @@ const reorder = (list, startIndex, endIndex) => {
 };
 
 const ListPacks = ({ data, setData, active, setActive }) => {
+  const onSort = async (datas) => {
+    try {
+      await datas.forEach(async (data, index) => {
+        const ref = doc(db, 'question', data.id);
+        await updateDoc(ref, { level: index + 1 });
+      });
+    } catch (error) {
+      console.log('sort failure');
+    }
+  };
+
+  useEffect(() => {
+    onSort(data);
+  }, [data]);
+
   const onDragEnd = (result) => {
-    // dropped outside the list
     if (!result.destination) {
       return;
     }
