@@ -19,6 +19,7 @@
     "@mantine/notifications": "^6.0.19",
     "@mantine/nprogress": "^6.0.19",
     "@tabler/icons-react": "^2.30.0",
+    "date-fns": "^2.30.0",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.18",
     "firebase": "^10.3.0",

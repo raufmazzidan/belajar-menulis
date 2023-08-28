@@ -4,13 +4,14 @@ import popup from '@/utils/popup';
 import { Text, Title } from '@mantine/core';
 import { modals } from '@mantine/modals';
 import { collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query } from 'firebase/firestore';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { useEffect, useMemo, useState } from 'react';
 
 const useMainQuestion = () => {
+  const router = useRouter();
   const isMobile = useWindowSize({ type: 'max', limit: 'md' });
 
   const [data, setData] = useState([]);
-  const [active, setActive] = useState({ items: [] });
   const [loading, setLoading] = useState(true);
 
   const getData = async () => {
@@ -31,8 +32,8 @@ const useMainQuestion = () => {
     const ref = doc(db, 'question', id);
     try {
       await deleteDoc(ref);
-      setActive({ items: [] });
       // getData();
+      router.replace('/question');
       await popup.closeAll();
       await popup.alert({ type: 'success', message: 'Successfully delete data.' });
     } catch (error) {
@@ -77,6 +78,12 @@ const useMainQuestion = () => {
   //   getData();
   // }, []);
 
+  const active = useMemo(() => {
+    const res = data.find(({ id }) => router.query.id === id);
+
+    return res || { items: [] };
+  }, [router.query.id, data]);
+
   return {
     isMobile,
     data,
@@ -84,7 +91,6 @@ const useMainQuestion = () => {
     loading,
     onDeleteData,
     setData,
-    setActive,
   };
 };
 

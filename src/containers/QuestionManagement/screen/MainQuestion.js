@@ -9,9 +9,10 @@ import imageEmptyData from '@/assets/empty-data.svg';
 import DottedPreview from '@/components/atoms/DottedPreview';
 import Information from '@/components/atoms/Information';
 import useMainQuestion from '../hooks/useMainQuestion';
+import dateFormat from '@/utils/dateFormat';
 
 const MainQuestion = () => {
-  const { active, data, onDeleteData, isMobile, loading, setData, setActive } = useMainQuestion();
+  const { active, data, onDeleteData, isMobile, loading, setData } = useMainQuestion();
 
   return (
     <>
@@ -51,7 +52,7 @@ const MainQuestion = () => {
                 ) : (
                   <>
                     {data.length > 0 ? (
-                      <ListPacks data={data} active={active} setData={setData} setActive={setActive} />
+                      <ListPacks data={data} setData={setData} />
                     ) : (
                       <States
                         image={imageEmptyData.src}
@@ -91,10 +92,16 @@ const MainQuestion = () => {
                       <Information title="Jumlah Question" value={active.items.length} />
                     </Grid.Col>
                     <Grid.Col span={6}>
-                      <Information title="Tanggal Dibuat" value={active.createdDate} />
+                      <Information
+                        title="Tanggal Dibuat"
+                        value={dateFormat({ date: active.createdDate, format: 'dd/MM/yyyy hh:mm' })}
+                      />
                     </Grid.Col>
                     <Grid.Col span={6}>
-                      <Information title="Tanggal Diedit" value={active.lastUpdate} />
+                      <Information
+                        title="Tanggal Diedit"
+                        value={dateFormat({ date: active.lastUpdate, format: 'dd/MM/yyyy hh:mm' })}
+                      />
                     </Grid.Col>
                     <Grid.Col span={12}>
                       <Information

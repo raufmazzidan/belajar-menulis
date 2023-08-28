@@ -16,74 +16,24 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { useForm } from '@mantine/form';
 import React from 'react';
-import validate from '../utils/validate';
 import imageDot from '@/assets/dot.png';
 import imageEmptyData from '@/assets/empty-data.svg';
 import { IconGridDots, IconPlus, IconTrash } from '@tabler/icons-react';
 import States from '@/components/atoms/States';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import useWindowSize from '@/utils/hooks/useWindowSize';
 import DottedPreview from '@/components/atoms/DottedPreview';
-import { modals } from '@mantine/modals';
-import { addDoc, collection } from 'firebase/firestore';
-import { db } from '@/config/firebase';
-import { useRouter } from 'next/router';
-import popup from '@/utils/popup';
+import useFormQuestion from '../hooks/useFormQuestion';
 
-const CreateQuestion = () => {
-  const router = useRouter();
-  const isMobile = useWindowSize({ type: 'max', limit: 'md' });
-
-  const form = useForm({
-    initialValues: {
-      item: [
-        {
-          question: '',
-        },
-      ],
-    },
-    validate: validate,
-    validateInputOnChange: true,
-  });
-
-  const submitData = (value) => async () => {
-    popup.loading();
-    const payload = {
-      items: value.item.map(({ question }) => ({ question, answer: question })),
-      title: value.title,
-      type: value.type,
-      createdDate: new Date().toJSON(),
-      lastUpdate: '',
-      level: 0,
-    };
-
-    const ref = collection(db, 'question');
-    try {
-      await addDoc(ref, payload);
-      router.push('/question');
-      await popup.closeAll();
-      await popup.alert({ type: 'success', message: 'Successfully submit data.' });
-    } catch (error) {
-      popup.alert({ type: 'error', message: 'Failed submit data.' });
-    }
-  };
-
-  const onSubmit = (val) => {
-    modals.openConfirmModal({
-      centered: true,
-      title: <Title order={5}>Are you sure with your data?</Title>,
-      children: <Text size="sm">Please check again carefully. Your data will be processed once it is submitted.</Text>,
-      labels: { confirm: 'Confirm', cancel: 'Check Again' },
-      onConfirm: submitData(val),
-    });
-  };
+const FormQuestion = () => {
+  const { form, isEdit, onSubmit, isMobile } = useFormQuestion();
 
   return (
     <form onSubmit={form.onSubmit(onSubmit)}>
       <Group mb={32} position="apart">
-        <Breadcrumbs data={[{ label: 'Question Management', href: '/question' }, { label: 'Create' }]} />
+        <Breadcrumbs
+          data={[{ label: 'Question Management', href: '/question' }, { label: isEdit ? 'Edit' : 'Create' }]}
+        />
         <Button type="submit">Submit</Button>
       </Group>
       <Paper radius={0} withBorder>
@@ -232,4 +182,4 @@ const CreateQuestion = () => {
   );
 };
 
-export default CreateQuestion;
+export default FormQuestion;

@@ -4,6 +4,7 @@ import { IconGridDots } from '@tabler/icons-react';
 import { Box, Flex, Text, Title } from '@mantine/core';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/config/firebase';
+import { useRouter } from 'next/router';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -13,7 +14,8 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-const ListPacks = ({ data, setData, active, setActive }) => {
+const ListPacks = ({ data, setData }) => {
+  const router = useRouter();
   const onSort = async (datas) => {
     try {
       await datas.forEach(async (data, index) => {
@@ -54,11 +56,11 @@ const ListPacks = ({ data, setData, active, setActive }) => {
                       justify="space-between"
                       ref={provided.innerRef}
                       {...provided.draggableProps}
-                      onClick={() => setActive(item)}
+                      onClick={() => router.replace({ query: { id: item.id } })}
                       sx={(theme) => ({
                         background: snapshot.isDragging
                           ? theme.colors.gray[0]
-                          : item.id === active.id
+                          : item.id === router.query.id
                           ? theme.colors.violet[0]
                           : 'white',
                         padding: 16,
