@@ -92,9 +92,7 @@ const useFormQuestion = () => {
         title: data.title,
         item: data.items.map(({ question }) => ({ question })),
       });
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   useEffect(() => {

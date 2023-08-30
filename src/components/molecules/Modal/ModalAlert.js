@@ -1,5 +1,5 @@
 import { Box, Button, Stack, Title, useMantineTheme } from '@mantine/core';
-import { IconCheck } from '@tabler/icons-react';
+import { IconCheck, IconX } from '@tabler/icons-react';
 import React from 'react';
 
 const ModalAlert = ({ context, id, innerProps: { message, type } }) => {
@@ -10,6 +10,11 @@ const ModalAlert = ({ context, id, innerProps: { message, type } }) => {
       success: theme.colors.green[7],
       error: theme.colors.red[7],
     }[type] || theme.colors.dark[7];
+
+  const Icon = {
+    success: IconCheck,
+    error: IconX,
+  }[type];
 
   return (
     <Stack align="center" spacing={16} my={32}>
@@ -24,9 +29,11 @@ const ModalAlert = ({ context, id, innerProps: { message, type } }) => {
           justifyContent: 'center',
         }}
       >
-        <IconCheck size={48} color={color} />
+        <Icon size={48} color={color} />
       </Box>
-      <Title order={4}>{message}</Title>
+      <Title align="center" order={4}>
+        {message}
+      </Title>
       <Button mt={16} onClick={() => context.closeModal(id)}>
         Okay
       </Button>

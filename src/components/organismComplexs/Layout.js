@@ -4,13 +4,14 @@ import { AppShell, Box } from '@mantine/core';
 import { HeaderMegaMenu } from '../organisms/Header';
 import { useDisclosure } from '@mantine/hooks';
 import { useRouter } from 'next/router';
+import { isBeforeLogin } from '@/utils/common';
 
 const Layout = ({ children }) => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
 
   const router = useRouter();
 
-  if (['/404'].includes(router.pathname)) {
+  if (isBeforeLogin(router.pathname)) {
     return children;
   }
 

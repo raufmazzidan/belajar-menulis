@@ -66,7 +66,7 @@ const MainQuestion = () => {
             </Box>
           </Grid.Col>
           <Grid.Col
-            span={isMobile ? 12 : 7}
+            span={isMobile ? 12 : 'auto'}
             sx={(theme) => ({
               borderTop: isMobile ? `1px solid ${theme.colors.gray[3]}` : 'none',
             })}
