@@ -55,10 +55,9 @@ const ForgotPassword = () => {
               <form onSubmit={form.onSubmit(onSubmit)}>
                 <Stack w="100%" mt={32}>
                   <TextInput placeholder="Masukkan email" label="Email" withAsterisk {...form.getInputProps('email')} />
-                  <Anchor sx={{ textAlign: 'right' }} fz="sm">
-                    Lupa password?
-                  </Anchor>
-                  <Button type="submit">Submit</Button>
+                  <Button type="submit" mt={24}>
+                    Submit
+                  </Button>
                 </Stack>
               </form>
               <Divider my={32} />

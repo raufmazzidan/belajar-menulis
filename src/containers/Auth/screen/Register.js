@@ -78,7 +78,6 @@ const Register = () => {
                     withAsterisk
                     {...form.getInputProps('password')}
                   />
-
                   <Button type="submit" mt={24}>
                     Register
                   </Button>
