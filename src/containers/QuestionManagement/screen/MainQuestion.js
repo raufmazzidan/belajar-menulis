@@ -10,6 +10,7 @@ import DottedPreview from '@/components/atoms/DottedPreview';
 import Information from '@/components/atoms/Information';
 import useMainQuestion from '../hooks/useMainQuestion';
 import dateFormat from '@/utils/dateFormat';
+import { questionType } from '../utils/constant';
 
 const MainQuestion = () => {
   const { active, data, onDeleteData, isMobile, loading, setData } = useMainQuestion();
@@ -86,7 +87,7 @@ const MainQuestion = () => {
                   <Divider my={16} />
                   <Grid>
                     <Grid.Col span={6}>
-                      <Information title="Tipe" value={active.type} />
+                      <Information title="Tipe" value={questionType[active.type]} />
                     </Grid.Col>
                     <Grid.Col span={6}>
                       <Information title="Jumlah Question" value={active.items.length} />

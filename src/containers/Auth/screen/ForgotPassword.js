@@ -5,42 +5,29 @@ import Kids from '@/assets/kids.jpg';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import Link from 'next/link';
 import { useForm } from '@mantine/form';
-import { validateLogin } from '../utils/validate';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { validateForgotPassword } from '../utils/validate';
+import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, db } from '@/config/firebase';
 import popup from '@/utils/popup';
 import { doc, getDoc } from 'firebase/firestore';
 import { logout } from '@/utils/common';
 
-const Login = () => {
+const ForgotPassword = () => {
   const isMobile = useWindowSize({ type: 'max', limit: 'sm' });
 
   const form = useForm({
-    validate: validateLogin,
+    validate: validateForgotPassword,
     validateInputOnChange: true,
   });
 
-  const onSubmit = (value) => {
-    signInWithEmailAndPassword(auth, value.email, value.password)
-      .then(({ user }) => {
-        const ref = doc(db, 'user', user.uid);
-        getDoc(ref)
-          .then((res) => {
-            if (res.data()) {
-              localStorage.setItem('user', JSON.stringify({ ...user, ...res.data() }));
-              window.location.href = '/';
-            } else {
-              popup.alert({ type: 'error', message: 'User not found!' });
-              logout();
-            }
-          })
-          .catch(() => {
-            popup.alert({ type: 'error', message: 'User not found!' });
-            logout();
-          });
+  const onSubmit = ({ email }) => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        window.location.href = '/login';
+        popup.alert({ type: 'success', message: 'Silahkan cek email anda untuk melakukan reset password' });
       })
-      .catch(() => {
-        popup.alert({ type: 'error', message: 'Email atau Password yang anda Input salah' });
+      .catch((error) => {
+        popup.alert({ type: 'error', message: error.message });
       });
   };
 
@@ -61,30 +48,24 @@ const Login = () => {
         <Grid.Col span={isMobile ? 12 : 6}>
           <Flex align="center" justify="center" h="100%">
             <Stack spacing={8} sx={{ width: isMobile ? 320 : 400 }}>
-              <Title order={1}>Login</Title>
+              <Title order={1}>Lupa Password</Title>
               <Text fz="sm" color="gray">
-                Masuk ke akun anda
+                Masukkan email yang terdaftar untuk melakukan reset password
               </Text>
               <form onSubmit={form.onSubmit(onSubmit)}>
                 <Stack w="100%" mt={32}>
                   <TextInput placeholder="Masukkan email" label="Email" withAsterisk {...form.getInputProps('email')} />
-                  <PasswordInput
-                    placeholder="Masukkan password"
-                    label="Password"
-                    withAsterisk
-                    {...form.getInputProps('password')}
-                  />
-                  <Anchor component={Link} href="/forgot-password" sx={{ textAlign: 'right' }} fz="sm">
+                  <Anchor sx={{ textAlign: 'right' }} fz="sm">
                     Lupa password?
                   </Anchor>
-                  <Button type="submit">Login</Button>
+                  <Button type="submit">Submit</Button>
                 </Stack>
               </form>
               <Divider my={32} />
               <Text fz="sm" align="center">
-                Tidak punya akun?{' '}
-                <Anchor component={Link} href="/register">
-                  Daftar disini.
+                Ingat akun anda?{' '}
+                <Anchor component={Link} href="/login">
+                  Login disini.
                 </Anchor>
               </Text>
             </Stack>
@@ -95,4 +76,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

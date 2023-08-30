@@ -12,5 +12,10 @@ const register = Yup.object().shape({
   fullName: Yup.string().required().label('FullName'),
 });
 
+const forgotPassword = Yup.object().shape({
+  email: Yup.string().required().email().label('Email'),
+});
+
 export const validateLogin = yupResolver(login);
 export const validateRegister = yupResolver(register);
+export const validateForgotPassword = yupResolver(forgotPassword);

@@ -4,7 +4,7 @@ import { signOut } from 'firebase/auth';
 import { useContext } from 'react';
 
 export const isBeforeLogin = (pathname) => {
-  return ['/404', '/register', '/login'].includes(pathname);
+  return ['/404', '/register', '/login', '/forgot-password'].includes(pathname);
 };
 
 export const getUserData = () => {

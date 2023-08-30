@@ -5,6 +5,7 @@ import { Box, Flex, Text, Title } from '@mantine/core';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { useRouter } from 'next/router';
+import { questionType } from '../utils/constant';
 
 const reorder = (list, startIndex, endIndex) => {
   const result = Array.from(list);
@@ -80,7 +81,7 @@ const ListPacks = ({ data, setData }) => {
                         <Title order={6}>{item.title}</Title>
 
                         <Text fz="sm" color="grey">
-                          {item.type}
+                          {questionType[item.type]}
                         </Text>
                       </Box>
                       <Text sx={{ whiteSpace: 'nowrap' }} fz="xs" color="grey">
