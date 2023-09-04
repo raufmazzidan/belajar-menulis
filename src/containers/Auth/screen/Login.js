@@ -27,7 +27,7 @@ const Login = () => {
         getDoc(ref)
           .then((res) => {
             if (res.data()) {
-              localStorage.setItem('user', JSON.stringify({ ...user, ...res.data() }));
+              localStorage.setItem('user', JSON.stringify({ ...res.data() }));
               window.location.href = '/';
             } else {
               popup.alert({ type: 'error', message: 'User not found!' });

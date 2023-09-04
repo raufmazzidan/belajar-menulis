@@ -1,5 +1,6 @@
 import Breadcrumbs from '@/components/atoms/Breadcrumbs';
 import Information from '@/components/atoms/Information';
+import { getToken, getUserData } from '@/utils/common';
 import dateFormat from '@/utils/dateFormat';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import {
@@ -18,7 +19,7 @@ import {
 } from '@mantine/core';
 import { IconPencil, IconPlus, IconTrash } from '@tabler/icons-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const _DATA = [
   {
@@ -39,8 +40,17 @@ const _DATA = [
 
 const MainMentee = () => {
   const isMobile = useWindowSize({ type: 'max', limit: 'sm' });
+  const user = getUserData();
 
-  const data = _DATA;
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch('/api/user/list-user', { headers: { Authorization: user.accessToken } })
+      .then((res) => res.json())
+      .then((response) => {
+        setData(response.data);
+      });
+  }, [user]);
   return (
     <>
       <Box mb={32}>
@@ -58,15 +68,15 @@ const MainMentee = () => {
         <Divider my={16} />
         {isMobile ? (
           <Accordion variant="contained">
-            {data.map(({ menteeName, username, createdDate, lastUpdate, pin }, index) => (
+            {data.map(({ email: menteeName, username, createdDate, lastUpdate, pin }, index) => (
               <Accordion.Item key={index} value={`${username}-${index}`} sx={{ background: 'white !important' }}>
                 <Accordion.Control sx={{ background: 'white !important' }}>
                   <Group noWrap>
                     <Avatar radius="xl" size="md" />
                     <div>
-                      <Text>John Doe</Text>
+                      <Text>{menteeName}</Text>
                       <Text size="sm" color="dimmed" weight={400}>
-                        johndoe
+                        {username}
                       </Text>
                     </div>
                   </Group>
@@ -104,7 +114,7 @@ const MainMentee = () => {
           </Accordion>
         ) : (
           <>
-            {data.map(({ menteeName, username, createdDate, lastUpdate, pin }, index) => {
+            {data.map(({ email: menteeName, username, createdDate, lastUpdate, pin }, index) => {
               return (
                 <Paper component={Flex} radius={0} withBorder p={16} gap={16} key={index} mt={index > 0 ? -1 : 0}>
                   <Grid gutter={16} sx={{ flexGrow: 1 }} grow>

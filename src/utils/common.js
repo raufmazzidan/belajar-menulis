@@ -1,6 +1,6 @@
 import { auth } from '@/config/firebase';
 import UserDataContext from '@/context/UserData';
-import { signOut } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 import { useContext } from 'react';
 
 export const isBeforeLogin = (pathname) => {
@@ -12,6 +12,16 @@ export const getUserData = () => {
   const { data } = useContext(UserDataContext);
 
   return data || {};
+};
+
+export const getToken = async () => {
+  try {
+    const auth = getAuth();
+    const token = await auth.currentUser.getIdToken();
+    return token;
+  } catch (error) {
+    return null;
+  }
 };
 
 export const logout = () => {

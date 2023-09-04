@@ -30,7 +30,7 @@ const Register = () => {
             email: user.email,
           };
           await setDoc(ref, payload);
-          await localStorage.setItem('user', JSON.stringify({ ...user, ...payload }));
+          await localStorage.setItem('user', JSON.stringify(payload));
           popup.alert({ type: 'success', message: 'Akun anda berhasil terdaftar!' });
           window.location.href = '/';
         } catch (error) {

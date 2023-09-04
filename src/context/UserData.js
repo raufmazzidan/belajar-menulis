@@ -1,3 +1,5 @@
+import { auth } from '@/config/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 const UserDataContext = createContext({
   data: null,
@@ -10,7 +12,15 @@ export const UserDataProvider = (props) => {
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('user'));
-    setUserData(data);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserData({ ...user, ...data });
+        console.log(user);
+      } else {
+        setUserData(null);
+      }
+    });
   }, []);
 
   return (
