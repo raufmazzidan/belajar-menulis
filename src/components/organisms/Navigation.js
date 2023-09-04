@@ -62,7 +62,7 @@ const Navigation = (props) => {
   }
 
   return (
-    <Navbar height="100vh" width={{ xs: 300 }} p="md" hidden>
+    <Navbar height="100vh" width={{ xs: 300 }} p="md">
       <Navbar.Section grow component={ScrollArea}>
         <div>
           {mockdata.map((item) => (

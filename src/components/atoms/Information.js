@@ -1,11 +1,11 @@
-import { Stack, Text, Title } from '@mantine/core';
+import { Box, Stack, Text, Title } from '@mantine/core';
 import React from 'react';
 
 const Information = ({ title, value }) => {
   let content = <Text>{value}</Text>;
 
   if (typeof value !== 'string') {
-    content = value;
+    content = <Box mt={6}>{value}</Box>;
   }
 
   if (!value) {

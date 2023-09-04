@@ -52,7 +52,7 @@ export function HeaderMegaMenu(props) {
               </Menu.Target>
 
               <Menu.Dropdown>
-                {isMobile && <Menu.Label>Rauf Mazzidan</Menu.Label>}
+                {isMobile && <Menu.Label>{userData.fullName}</Menu.Label>}
                 <Menu.Item icon={<IconUser size={14} />} onClick={onLogout}>
                   Logout
                 </Menu.Item>

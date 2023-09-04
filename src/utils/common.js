@@ -24,3 +24,11 @@ export const logout = () => {
       // An error happened.
     });
 };
+
+export const onFetchError = (action) => (error) => {
+  if (error.code === 'permission-denied') {
+    logout();
+  }
+
+  action(error);
+};

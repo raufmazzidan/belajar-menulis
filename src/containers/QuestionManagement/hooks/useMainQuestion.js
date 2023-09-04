@@ -1,37 +1,24 @@
 import { db } from '@/config/firebase';
+import useRealtime from '@/utils/hooks/fetch/useRealtime';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import popup from '@/utils/popup';
 import { Text, Title } from '@mantine/core';
 import { modals } from '@mantine/modals';
-import { collection, deleteDoc, doc, getDocs, onSnapshot, orderBy, query } from 'firebase/firestore';
+import { collection, deleteDoc, doc, orderBy, query } from 'firebase/firestore';
 import { useRouter } from 'next/router';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 const useMainQuestion = () => {
   const router = useRouter();
   const isMobile = useWindowSize({ type: 'max', limit: 'md' });
 
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const getData = async () => {
-    setLoading(true);
-    const ref = collection(db, 'question');
-    try {
-      const response = await getDocs(ref);
-      const data = response.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      setData(data);
-      setLoading(false);
-    } catch (error) {
-      setData([]);
-      setLoading(false);
-    }
-  };
+  const { data, setData, loading } = useRealtime({
+    reference: query(collection(db, 'question'), orderBy('level')),
+  });
 
   const deleteData = (id) => async () => {
-    const ref = doc(db, 'question', id);
     try {
-      await deleteDoc(ref);
+      await deleteDoc(doc(db, 'question', id));
       // getData();
       router.replace('/question');
       await popup.closeAll();
@@ -50,33 +37,6 @@ const useMainQuestion = () => {
       onConfirm: deleteData(id),
     });
   };
-
-  useEffect(() => {
-    const ref = collection(db, 'question');
-    const q = query(ref, orderBy('level'));
-    const getRealtimeData = onSnapshot(
-      q,
-      (response) => {
-        const data = response.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setData(data);
-        setLoading(false);
-      },
-      (error) => {
-        setLoading(false);
-      }
-    );
-
-    return () => {
-      getRealtimeData();
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   getData();
-  // }, []);
 
   const active = useMemo(() => {
     const res = data.find(({ id }) => router.query.id === id);
