@@ -15,6 +15,7 @@ import {
   Grid,
   Group,
   Paper,
+  Skeleton,
   Stack,
   Text,
   Title,
@@ -96,7 +97,11 @@ const MainMentee = () => {
         </Group>
         <Divider my={16} />
         {loading ? (
-          <>loading</>
+          <Stack spacing={2}>
+            <Skeleton h={80} />
+            <Skeleton h={80} />
+            <Skeleton h={80} />
+          </Stack>
         ) : (
           <>
             {data.length ? (
