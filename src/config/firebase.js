@@ -3,12 +3,12 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyCEFxakkAutN4zR7Du07ygxGfEKefoFj5A',
-  authDomain: 'belajar-menulis-d9327.firebaseapp.com',
-  projectId: 'belajar-menulis-d9327',
-  storageBucket: 'belajar-menulis-d9327.appspot.com',
-  messagingSenderId: '794581989817',
-  appId: '1:794581989817:web:32e16c1a609f075d835e68',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
