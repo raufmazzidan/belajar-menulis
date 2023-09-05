@@ -1,4 +1,5 @@
 import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 
 // move to env
 const config = {
@@ -21,7 +22,6 @@ try {
   admin.initializeApp({
     credential: admin.credential.cert(config),
   });
-  console.log('Admin Initialized.');
 } catch (error) {
   /*
    * We skip the "already exists" message which is
@@ -34,3 +34,4 @@ try {
 
 export default admin;
 export const authAdmin = admin.auth();
+export const dbAdmin = getFirestore();

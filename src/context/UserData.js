@@ -1,4 +1,5 @@
 import { auth } from '@/config/firebase';
+import { logout } from '@/utils/common';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { createContext, useEffect, useState } from 'react';
 const UserDataContext = createContext({
@@ -16,9 +17,9 @@ export const UserDataProvider = (props) => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserData({ ...user, ...data });
-        console.log(user);
       } else {
         setUserData(null);
+        localStorage.removeItem('user');
       }
     });
   }, []);

@@ -10,7 +10,7 @@ import { useForm } from '@mantine/form';
 import { useEffect } from 'react';
 import { getUserData } from '@/utils/common';
 
-const useFormQuestion = () => {
+const useFormMentee = () => {
   const router = useRouter();
   const isMobile = useWindowSize({ type: 'max', limit: 'md' });
   const user = getUserData();
@@ -19,11 +19,8 @@ const useFormQuestion = () => {
 
   const form = useForm({
     initialValues: {
-      item: [
-        {
-          question: '',
-        },
-      ],
+      fullName: '',
+      email: '',
     },
     validate: validate,
     validateInputOnChange: true,
@@ -32,46 +29,50 @@ const useFormQuestion = () => {
   const submitData = (value) => async () => {
     popup.loading();
     if (isEdit) {
-      const payload = {
-        items: value.item.map(({ question }) => ({ question, answer: question })),
-        title: value.title,
-        type: value.type,
-        lastUpdate: new Date().toJSON(),
-      };
-      const ref = doc(db, 'question', router.query.id);
-      try {
-        await updateDoc(ref, payload);
-        router.push({
-          pathname: '/question',
-          query: {
-            id: router.query.id,
-          },
+      fetch(`/api/user/${router.query.id}`, {
+        headers: { Authorization: user.accessToken },
+        method: 'PUT',
+        body: JSON.stringify({
+          ...value,
+          lastUpdate: new Date().toJSON(),
+        }),
+        contentType: 'application/json',
+      })
+        .then(() => {
+          router.push('/mentee');
+          popup.closeAll();
+          popup.alert({ type: 'success', message: 'Successfully edit user.' });
+        })
+        .catch(() => {
+          popup.alert({ type: 'error', message: 'Failed edit user.' });
         });
-        await popup.closeAll();
-        await popup.alert({ type: 'success', message: 'Successfully update data.' });
-      } catch (error) {
-        popup.alert({ type: 'error', message: 'Failed update data.' });
-      }
     } else {
-      const payload = {
-        items: value.item.map(({ question }) => ({ question, answer: question })),
-        title: value.title,
-        type: value.type,
-        createdDate: new Date().toJSON(),
-        lastUpdate: '',
-        level: 99,
-        createdBy: user.uid,
-      };
-
-      const ref = collection(db, 'question');
-      try {
-        await addDoc(ref, payload);
-        router.push('/question');
-        await popup.closeAll();
-        await popup.alert({ type: 'success', message: 'Successfully submit data.' });
-      } catch (error) {
-        popup.alert({ type: 'error', message: 'Failed submit data.' });
-      }
+      fetch('/api/user', {
+        headers: { Authorization: user.accessToken },
+        method: 'POST',
+        body: JSON.stringify({
+          ...value,
+          role: 'mentee',
+          mentor: user.uid,
+          createdDate: new Date().toJSON(),
+          lastUpdate: '',
+        }),
+        contentType: 'application/json',
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          if (response.success) {
+            router.push('/mentee');
+            popup.closeAll();
+            popup.alert({ type: 'success', message: 'Successfully create user.' });
+          } else {
+            popup.closeAll();
+            throw new Error(response.message);
+          }
+        })
+        .catch((error) => {
+          popup.alert({ type: 'error', message: error.message || 'Failed create user.' });
+        });
     }
   };
 
@@ -86,14 +87,14 @@ const useFormQuestion = () => {
   };
 
   const getData = async () => {
-    const ref = doc(db, 'question', router.query.id);
+    const ref = doc(db, 'user', router.query.id);
     try {
       const response = await getDoc(ref);
       const data = response.data();
       form.setValues({
-        type: data.type,
-        title: data.title,
-        item: data.items.map(({ question }) => ({ question })),
+        email: data.email,
+        fullName: data.fullName,
+        password: data.pin,
       });
     } catch (error) {}
   };
@@ -113,4 +114,4 @@ const useFormQuestion = () => {
   };
 };
 
-export default useFormQuestion;
+export default useFormMentee;
