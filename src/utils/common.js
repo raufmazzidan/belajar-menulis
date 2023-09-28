@@ -4,7 +4,7 @@ import { getAuth, signOut } from 'firebase/auth';
 import { useContext } from 'react';
 
 export const isBeforeLogin = (pathname) => {
-  return ['/404', '/register', '/login', '/forgot-password'].includes(pathname);
+  return ['/register', '/login', '/forgot-password'].includes(pathname);
 };
 
 export const getUserData = () => {
@@ -41,4 +41,17 @@ export const onFetchError = (action) => (error) => {
   }
 
   action(error);
+};
+
+export const greetings = () => {
+  let myDate = new Date();
+  let hours = myDate.getHours();
+  let greet;
+
+  if (hours >= 5 && hours < 12) greet = 'Selamat Pagi';
+  else if (hours >= 12 && hours <= 15) greet = 'Selamat Siang';
+  else if (hours >= 15 && hours <= 18) greet = 'Selamat Sore';
+  else greet = 'Selamat Malam';
+
+  return greet;
 };

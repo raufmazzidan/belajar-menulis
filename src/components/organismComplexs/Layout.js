@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
 
   const router = useRouter();
 
-  if (isBeforeLogin(router.pathname)) {
+  if (isBeforeLogin(router.pathname) || router.pathname === '/404') {
     return children;
   }
 
