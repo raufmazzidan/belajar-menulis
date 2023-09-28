@@ -1,5 +1,17 @@
-import Logo from '@/components/atoms/Logo';
-import { Anchor, Box, Button, Divider, Flex, Grid, PasswordInput, Stack, Text, TextInput, Title } from '@mantine/core';
+import {
+  Anchor,
+  Box,
+  Button,
+  Center,
+  Divider,
+  Flex,
+  Grid,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
 import React from 'react';
 import Kids from '@/assets/kids.jpg';
 import useWindowSize from '@/utils/hooks/useWindowSize';
@@ -9,7 +21,7 @@ import { useForm } from '@mantine/form';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import popup from '@/utils/popup';
 import { auth, db } from '@/config/firebase';
-import { addDoc, doc, setDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 
 const Register = () => {
   const isMobile = useWindowSize({ type: 'max', limit: 'sm' });
@@ -78,9 +90,11 @@ const Register = () => {
                     withAsterisk
                     {...form.getInputProps('password')}
                   />
-                  <Button type="submit" mt={24}>
-                    Register
-                  </Button>
+                  <Center>
+                    <Button type="submit" mt={24}>
+                      Register
+                    </Button>
+                  </Center>
                 </Stack>
               </form>
               <Divider my={32} />

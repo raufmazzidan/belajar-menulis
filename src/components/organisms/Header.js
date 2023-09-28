@@ -1,5 +1,5 @@
 import { Header, Group, UnstyledButton, Text, Burger, rem, Menu, Avatar } from '@mantine/core';
-import { IconChevronDown, IconUser } from '@tabler/icons-react';
+import { IconChevronDown, IconUser, IconUserCircle } from '@tabler/icons-react';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import Logo from '../atoms/Logo';
 import { auth } from '@/config/firebase';
@@ -38,7 +38,7 @@ export function HeaderMegaMenu(props) {
               <Menu.Target>
                 <UnstyledButton>
                   <Group spacing={7}>
-                    <Avatar radius="xl" size={40} />
+                    <IconUserCircle stroke={1} size={24} />
                     {!isMobile && (
                       <>
                         <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>

@@ -1,3 +1,3 @@
-import Report from '@/containers/Report';
+import { Report } from '@/containers/Report';
 
 export default Report;

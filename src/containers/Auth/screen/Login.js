@@ -1,5 +1,17 @@
-import Logo from '@/components/atoms/Logo';
-import { Anchor, Box, Button, Divider, Flex, Grid, PasswordInput, Stack, Text, TextInput, Title } from '@mantine/core';
+import {
+  Anchor,
+  Box,
+  Button,
+  Center,
+  Divider,
+  Flex,
+  Grid,
+  PasswordInput,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+} from '@mantine/core';
 import React from 'react';
 import Kids from '@/assets/kids.jpg';
 import useWindowSize from '@/utils/hooks/useWindowSize';
@@ -77,7 +89,9 @@ const Login = () => {
                   <Anchor component={Link} href="/forgot-password" sx={{ textAlign: 'right' }} fz="sm">
                     Lupa password?
                   </Anchor>
-                  <Button type="submit">Login</Button>
+                  <Center>
+                    <Button type="submit">Login</Button>
+                  </Center>
                 </Stack>
               </form>
               <Divider my={32} />

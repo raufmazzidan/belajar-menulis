@@ -1,16 +1,13 @@
-import Logo from '@/components/atoms/Logo';
-import { Anchor, Box, Button, Divider, Flex, Grid, PasswordInput, Stack, Text, TextInput, Title } from '@mantine/core';
+import { Anchor, Box, Button, Center, Divider, Flex, Grid, Stack, Text, TextInput, Title } from '@mantine/core';
 import React from 'react';
 import Kids from '@/assets/kids.jpg';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import Link from 'next/link';
 import { useForm } from '@mantine/form';
 import { validateForgotPassword } from '../utils/validate';
-import { sendPasswordResetEmail, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '@/config/firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '@/config/firebase';
 import popup from '@/utils/popup';
-import { doc, getDoc } from 'firebase/firestore';
-import { logout } from '@/utils/common';
 
 const ForgotPassword = () => {
   const isMobile = useWindowSize({ type: 'max', limit: 'sm' });
@@ -55,9 +52,11 @@ const ForgotPassword = () => {
               <form onSubmit={form.onSubmit(onSubmit)}>
                 <Stack w="100%" mt={32}>
                   <TextInput placeholder="Masukkan email" label="Email" withAsterisk {...form.getInputProps('email')} />
-                  <Button type="submit" mt={24}>
-                    Submit
-                  </Button>
+                  <Center>
+                    <Button type="submit" mt={24}>
+                      Submit
+                    </Button>
+                  </Center>
                 </Stack>
               </form>
               <Divider my={32} />

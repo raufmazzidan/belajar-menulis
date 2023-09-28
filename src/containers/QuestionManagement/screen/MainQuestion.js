@@ -95,13 +95,13 @@ const MainQuestion = () => {
                     <Grid.Col span={6}>
                       <Information
                         title="Tanggal Dibuat"
-                        value={dateFormat({ date: active.createdDate, format: 'dd/MM/yyyy hh:mm' })}
+                        value={dateFormat({ date: active.createdDate, format: 'dd/MM/yyyy HH:mm' })}
                       />
                     </Grid.Col>
                     <Grid.Col span={6}>
                       <Information
                         title="Tanggal Diedit"
-                        value={dateFormat({ date: active.lastUpdate, format: 'dd/MM/yyyy hh:mm' })}
+                        value={dateFormat({ date: active.lastUpdate, format: 'dd/MM/yyyy HH:mm' })}
                       />
                     </Grid.Col>
                     <Grid.Col span={12}>

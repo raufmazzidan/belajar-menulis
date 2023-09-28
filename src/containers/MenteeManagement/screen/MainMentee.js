@@ -128,11 +128,11 @@ const MainMentee = () => {
                             <Information title="PIN" value={pin} />
                             <Information
                               title="Tanggal Dibuat"
-                              value={dateFormat({ date: createdDate, format: 'dd/MM/yyyy hh:mm' })}
+                              value={dateFormat({ date: createdDate, format: 'dd/MM/yyyy HH:mm' })}
                             />
                             <Information
                               title="Tanggal Diedit"
-                              value={dateFormat({ date: lastUpdate, format: 'dd/MM/yyyy hh:mm' })}
+                              value={dateFormat({ date: lastUpdate, format: 'dd/MM/yyyy HH:mm' })}
                             />
                             <Information
                               title="Action"
@@ -183,13 +183,13 @@ const MainMentee = () => {
                             <Grid.Col md={6} lg={4} xl={2} xs={12}>
                               <Information
                                 title="Tanggal Dibuat"
-                                value={dateFormat({ date: createdDate, format: 'dd/MM/yyyy hh:mm' })}
+                                value={dateFormat({ date: createdDate, format: 'dd/MM/yyyy HH:mm' })}
                               />
                             </Grid.Col>
                             <Grid.Col md={6} lg={4} xl={2} xs={12}>
                               <Information
                                 title="Tanggal Diedit"
-                                value={dateFormat({ date: lastUpdate, format: 'dd/MM/yyyy hh:mm' })}
+                                value={dateFormat({ date: lastUpdate, format: 'dd/MM/yyyy HH:mm' })}
                               />
                             </Grid.Col>
                             <Grid.Col md={6} lg={4} xl={'content'} xs={12} sx={{ alignSelf: 'center' }}>
