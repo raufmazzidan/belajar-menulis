@@ -10,7 +10,7 @@ const mockdata = [
   { label: 'Dashboard', icon: IconLayoutDashboard, link: '/' },
   { label: 'Question Management', icon: IconAlphabetGreek, link: '/question' },
   { label: 'Mentee Management', icon: IconUsersGroup, link: '/mentee' },
-  { label: 'Report', icon: IconChartPie2, link: '/report' },
+  { label: 'Mentee Result', icon: IconChartPie2, link: '/report' },
   // {
   //   label: 'Market news',
   //   icon: IconChartPie2,
