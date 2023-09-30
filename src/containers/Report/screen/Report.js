@@ -20,6 +20,7 @@ import {
 import { IconCheck, IconX } from '@tabler/icons-react';
 import { collection, getDocs, query, doc, getDoc, where, orderBy } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
+import Draw from '../element/Draw';
 
 const Report = () => {
   const user = getUserData();
@@ -101,6 +102,7 @@ const Report = () => {
       <Box mb={32}>
         <Breadcrumbs data={[{ label: 'Mentee Result' }]} />
       </Box>
+
       {mentee.map(({ fullName, id: userId }, i) => (
         <Skeleton visible={loading} key={i} mb={16}>
           <Paper radius={0} withBorder p={32}>
@@ -167,7 +169,12 @@ const Report = () => {
                                     </ThemeIcon>
                                   </Tooltip>
                                   <Box sx={{ flexGrow: 1 }}>
-                                    <DottedPreview content={question} size="small" />
+                                    <Box sx={{ position: 'relative', minHeight: 72 }}>
+                                      <DottedPreview content={question} size="small" />
+                                      <Box sx={{ position: 'absolute', top: 0, width: '100%' }}>
+                                        <Draw points={result?.points} />
+                                      </Box>
+                                    </Box>
                                     <Box mt={8}>
                                       {!!result ? (
                                         <Text size="xs">Total Percobaan Menjawab : {result?.retryCount}</Text>

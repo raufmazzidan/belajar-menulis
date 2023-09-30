@@ -14,7 +14,7 @@ const DottedPreview = ({ content, size = 'default' }) => {
   }[size];
 
   return (
-    <Paper withBorder sx={{ ...variants.paper, overflow: 'auto' }}>
+    <Paper withBorder sx={{ ...variants.paper, overflow: 'auto', textAlign: 'center' }}>
       <Text ff="Print Dashed" align="center" sx={{ display: 'inline-block', ...variants.text }}>
         {content}
       </Text>

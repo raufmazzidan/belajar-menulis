@@ -28,6 +28,7 @@
     "react": "18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "18.2.0",
+    "react-sketch-canvas": "^6.2.0",
     "yup": "^1.2.0"
   },
   "devDependencies": {
