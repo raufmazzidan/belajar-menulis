@@ -50,7 +50,13 @@ const Register = () => {
         }
       })
       .catch((error) => {
-        popup.alert({ type: 'error', message: error.message });
+        popup.alert({
+          type: 'error',
+          message:
+            { 'Firebase: Error (auth/email-already-in-use).': 'Email sudah digunakan pada akun lain.' }[
+              error.message
+            ] || error.message,
+        });
       });
   };
 

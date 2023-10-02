@@ -159,7 +159,7 @@ const FormQuestion = () => {
                       )}
                     </Droppable>
                   </DragDropContext>
-                  {form.values.item?.length < 10 && (
+                  {form.values.item?.length < 5 && (
                     <Center>
                       <Button
                         size="xs"

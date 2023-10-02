@@ -1,7 +1,7 @@
 import { Box, Divider, Drawer, Navbar, ScrollArea } from '@mantine/core';
 import React, { useEffect } from 'react';
 import Logo from '../atoms/Logo';
-import { IconLayoutDashboard, IconAlphabetGreek, IconUsersGroup, IconChartPie2 } from '@tabler/icons-react';
+import { IconLayoutDashboard, IconAlphabetGreek, IconUsersGroup, IconChartPie2, IconGraph } from '@tabler/icons-react';
 import useWindowSize from '@/utils/hooks/useWindowSize';
 import NavbarItem from '../molecules/NavbarItem';
 import { useRouter } from 'next/router';
@@ -10,7 +10,7 @@ const mockdata = [
   { label: 'Dashboard', icon: IconLayoutDashboard, link: '/' },
   { label: 'Question Management', icon: IconAlphabetGreek, link: '/question' },
   { label: 'Mentee Management', icon: IconUsersGroup, link: '/mentee' },
-  { label: 'Mentee Result', icon: IconChartPie2, link: '/report' },
+  { label: 'Report', icon: IconGraph, link: '/report' },
   // {
   //   label: 'Market news',
   //   icon: IconChartPie2,

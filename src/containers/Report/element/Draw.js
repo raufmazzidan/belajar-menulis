@@ -10,7 +10,6 @@ const Draw = ({ points = [] }) => {
   const parentWidth = parent.width;
 
   const onChangeDraw = async () => {
-    console.log(parentWidth / 10);
     await ref.current.clearCanvas();
     await ref.current.loadPaths([
       {

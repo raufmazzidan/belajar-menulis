@@ -24,7 +24,13 @@ const ForgotPassword = () => {
         popup.alert({ type: 'success', message: 'Silahkan cek email anda untuk melakukan reset password' });
       })
       .catch((error) => {
-        popup.alert({ type: 'error', message: error.message });
+        popup.alert({
+          type: 'error',
+          message:
+            { 'Firebase: Error (auth/user-not-found).': 'Tidak ada akun yang menggunakan email tersebut' }[
+              error.message
+            ] || error.message,
+        });
       });
   };
 
