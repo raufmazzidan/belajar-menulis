@@ -192,11 +192,6 @@ const Report = () => {
                       }
                     });
 
-                    console.log({
-                      name: `Nomor ${num}`,
-                      ...value,
-                    });
-
                     return {
                       name: `Nomor ${num}`,
                       ...value,

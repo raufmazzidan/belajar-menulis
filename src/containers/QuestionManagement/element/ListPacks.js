@@ -18,10 +18,29 @@ const reorder = (list, startIndex, endIndex) => {
 const ListPacks = ({ data, setData }) => {
   const router = useRouter();
   const onSort = async (datas) => {
+    const isOnlyOneActive = datas.filter(({ active }) => !!active).length < 2;
     try {
       await datas.forEach(async (data, index) => {
         const ref = doc(db, 'question', data.id);
-        await updateDoc(ref, { level: index + 1 });
+        let payload = {
+          level: index + 1,
+        };
+
+        if (isOnlyOneActive) {
+          if (index === 0) {
+            payload = {
+              ...payload,
+              active: true,
+            };
+          } else {
+            payload = {
+              ...payload,
+              active: false,
+            };
+          }
+        }
+
+        await updateDoc(ref, payload);
       });
     } catch (error) {
       console.log('sort failure');

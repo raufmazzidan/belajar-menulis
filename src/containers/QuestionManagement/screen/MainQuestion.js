@@ -14,7 +14,6 @@ import { questionType } from '../utils/constant';
 
 const MainQuestion = () => {
   const { active, data, onDeleteData, isMobile, loading, setData } = useMainQuestion();
-
   return (
     <>
       <Box mb={32}>
