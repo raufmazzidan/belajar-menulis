@@ -31,6 +31,8 @@ import {
   LineChart,
   Line,
 } from 'recharts';
+import States from '@/components/atoms/States';
+import imageEmptyData from '@/assets/empty-data.svg';
 
 const COLOR = [
   '#3366cc',
@@ -117,13 +119,13 @@ const Report = () => {
               answers: answers || [],
             },
           };
-          setLoading(false);
         } catch (error) {
           setReport(null);
           setLoading(false);
         }
       });
     });
+    setLoading(false);
     setReport(result);
   };
 
@@ -140,7 +142,7 @@ const Report = () => {
 
   const getTotalRetryCount = useCallback(() => {
     if (!mentee.length || !report || !question.length) {
-      return;
+      return null;
     }
 
     let res = {};
@@ -176,63 +178,71 @@ const Report = () => {
           <Title order={4}>Total Percobaan Menjawab</Title>
           <Divider my={16} />
           <Box sx={{ overflowX: 'auto', overflowY: 'hidden' }}>
-            <Box h={400} sx={{ minWidth: 800 }}>
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart
-                  style={{ fontSize: 14 }}
-                  width={500}
-                  height={300}
-                  data={[1, 2, 3, 4, 5].map((num) => {
-                    let value = {};
+            {getTotalRetryCount() ? (
+              <Box h={400} sx={{ minWidth: 800 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart
+                    style={{ fontSize: 14 }}
+                    width={500}
+                    height={300}
+                    data={[1, 2, 3, 4, 5].map((num) => {
+                      let value = {};
 
-                    question.forEach(({ id }) => {
-                      const quest = getTotalRetryCount()[id];
-                      if (quest && quest[num - 1]) {
-                        value[id] = quest[num - 1];
-                      }
-                    });
-
-                    return {
-                      name: `Nomor ${num}`,
-                      ...value,
-                    };
-                  })}
-                  margin={{
-                    top: 8,
-                    right: 30,
-                    left: 8,
-                    bottom: 8,
-                  }}
-                >
-                  <CartesianGrid vertical={false} strokeDasharray="3 3" />
-                  <XAxis dataKey="name" padding={{ left: 32, right: 32 }} />
-                  <YAxis />
-                  <ChartTooltip
-                    formatter={(value, name) => {
-                      let res = {};
-                      question.forEach(({ id, title }) => {
-                        res[id] = title;
+                      question.forEach(({ id }) => {
+                        const quest = getTotalRetryCount()[id];
+                        if (quest && quest[num - 1]) {
+                          value[id] = quest[num - 1];
+                        }
                       });
 
-                      return [value, res[name]];
+                      return {
+                        name: `Nomor ${num}`,
+                        ...value,
+                      };
+                    })}
+                    margin={{
+                      top: 8,
+                      right: 30,
+                      left: 8,
+                      bottom: 8,
                     }}
-                  />
-                  <Legend
-                    formatter={(value, entry) => {
-                      let res = {};
-                      question.forEach(({ id, title }) => {
-                        res[id] = title;
-                      });
+                  >
+                    <CartesianGrid vertical={false} strokeDasharray="3 3" />
+                    <XAxis dataKey="name" padding={{ left: 32, right: 32 }} />
+                    <YAxis />
+                    <ChartTooltip
+                      formatter={(value, name) => {
+                        let res = {};
+                        question.forEach(({ id, title }) => {
+                          res[id] = title;
+                        });
 
-                      return res[value];
-                    }}
-                  />
-                  {Object.keys(getTotalRetryCount() || {}).map((id, i) => (
-                    <Line type="linear" dataKey={id} stroke={COLOR[i]} key={id} />
-                  ))}
-                </LineChart>
-              </ResponsiveContainer>
-            </Box>
+                        return [value, res[name]];
+                      }}
+                    />
+                    <Legend
+                      formatter={(value, entry) => {
+                        let res = {};
+                        question.forEach(({ id, title }) => {
+                          res[id] = title;
+                        });
+
+                        return res[value];
+                      }}
+                    />
+                    {Object.keys(getTotalRetryCount() || {}).map((id, i) => (
+                      <Line type="linear" dataKey={id} stroke={COLOR[i]} key={id} />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+              </Box>
+            ) : (
+              <States
+                image={imageEmptyData.src}
+                message="Data Not Found"
+                description="Tidak ada hasil yang sesuai dengan permintaan Anda"
+              />
+            )}
           </Box>
         </Paper>
       </Skeleton>
@@ -240,100 +250,110 @@ const Report = () => {
       <Box mb={32}>
         <Breadcrumbs data={[{ label: 'Mentee Result' }]} />
       </Box>
-      {mentee.map(({ fullName, id: userId }, i) => (
-        <Skeleton visible={loading} key={i} mb={16}>
-          <Paper radius={0} withBorder p={32}>
-            <Title order={4}>{fullName}</Title>
-            <Divider my={16} />
-            <Grid>
-              {question.map(({ title, items, level, id: questionId }, j) => {
-                const answers =
-                  (report && report[userId] && report[userId] && report[userId][questionId]?.answers) || [];
-                const finsihed = answers.filter(({ correct }) => !!correct);
+      {mentee.length ? (
+        <>
+          {mentee.map(({ fullName, id: userId }, i) => (
+            <Skeleton visible={loading} key={i} mb={16}>
+              <Paper radius={0} withBorder p={32}>
+                <Title order={4}>{fullName}</Title>
+                <Divider my={16} />
+                <Grid>
+                  {question.map(({ title, items, level, id: questionId }, j) => {
+                    const answers =
+                      (report && report[userId] && report[userId] && report[userId][questionId]?.answers) || [];
+                    const finsihed = answers.filter(({ correct }) => !!correct);
 
-                const progress = (finsihed.length / items.length) * 100;
-                return (
-                  <Grid.Col xs={12} md={6} lg={4} key={j}>
-                    <Accordion variant="contained">
-                      <Accordion.Item key={j} value={`${title}-${j}`} sx={{ background: 'white !important' }}>
-                        <Accordion.Control sx={{ background: 'white !important' }}>
-                          <Stack spacing={16}>
-                            <div>
-                              <Title order={6}>{title}</Title>
-                              <Text size="xs">(Level {level})</Text>
-                            </div>
-                            <Flex align="center" gap={8}>
-                              <Box w="100%">
-                                <Progress color={progress === 100 ? 'green' : 'violet'} value={progress} />
-                              </Box>
-                              <Text size="xs" color="gray">
-                                {progress}%
-                              </Text>
-                            </Flex>
-                          </Stack>
-                        </Accordion.Control>
-                        <Accordion.Panel>
-                          <Stack>
-                            {items.map(({ question }, q) => {
-                              const result = answers[q] || null;
-                              let status = '';
-
-                              if (result?.correct === true) {
-                                status = 'correct';
-                              } else if (result?.correct === false) {
-                                status = 'incorrect';
-                              } else {
-                                status = 'empty';
-                              }
-
-                              const tooltipLabel = {
-                                correct: 'Benar',
-                                incorrect: 'Salah',
-                                empty: 'Belum Dikerjakan',
-                              }[status];
-                              const color = { correct: 'green', incorrect: 'red', empty: 'gray' }[status];
-                              const Icon = {
-                                correct: <IconCheck size="1rem" />,
-                                incorrect: <IconX size="1rem" />,
-                                empty: <Text>{q + 1}</Text>,
-                              }[status];
-
-                              return (
-                                <Flex key={q} gap={8}>
-                                  <Tooltip label={tooltipLabel} color={color}>
-                                    <ThemeIcon color={color} size={24} radius="xl">
-                                      {Icon}
-                                    </ThemeIcon>
-                                  </Tooltip>
-                                  <Box sx={{ flexGrow: 1 }}>
-                                    <Box sx={{ position: 'relative', minHeight: 72 }}>
-                                      <DottedPreview content={question} size="small" />
-                                      <Box sx={{ position: 'absolute', top: 0, width: '100%' }}>
-                                        <Draw points={result?.points} />
-                                      </Box>
-                                    </Box>
-                                    <Box mt={8}>
-                                      {!!result ? (
-                                        <Text size="xs">Total Percobaan Menjawab : {result?.retryCount}</Text>
-                                      ) : (
-                                        <Box sx={{ height: '18.59px' }} />
-                                      )}
-                                    </Box>
+                    const progress = (finsihed.length / items.length) * 100;
+                    return (
+                      <Grid.Col xs={12} md={6} lg={4} key={j}>
+                        <Accordion variant="contained">
+                          <Accordion.Item key={j} value={`${title}-${j}`} sx={{ background: 'white !important' }}>
+                            <Accordion.Control sx={{ background: 'white !important' }}>
+                              <Stack spacing={16}>
+                                <div>
+                                  <Title order={6}>{title}</Title>
+                                  <Text size="xs">(Level {level})</Text>
+                                </div>
+                                <Flex align="center" gap={8}>
+                                  <Box w="100%">
+                                    <Progress color={progress === 100 ? 'green' : 'violet'} value={progress} />
                                   </Box>
+                                  <Text size="xs" color="gray">
+                                    {progress}%
+                                  </Text>
                                 </Flex>
-                              );
-                            })}
-                          </Stack>
-                        </Accordion.Panel>
-                      </Accordion.Item>
-                    </Accordion>
-                  </Grid.Col>
-                );
-              })}
-            </Grid>
-          </Paper>
-        </Skeleton>
-      ))}
+                              </Stack>
+                            </Accordion.Control>
+                            <Accordion.Panel>
+                              <Stack>
+                                {items.map(({ question }, q) => {
+                                  const result = answers[q] || null;
+                                  let status = '';
+
+                                  if (result?.correct === true) {
+                                    status = 'correct';
+                                  } else if (result?.correct === false) {
+                                    status = 'incorrect';
+                                  } else {
+                                    status = 'empty';
+                                  }
+
+                                  const tooltipLabel = {
+                                    correct: 'Benar',
+                                    incorrect: 'Salah',
+                                    empty: 'Belum Dikerjakan',
+                                  }[status];
+                                  const color = { correct: 'green', incorrect: 'red', empty: 'gray' }[status];
+                                  const Icon = {
+                                    correct: <IconCheck size="1rem" />,
+                                    incorrect: <IconX size="1rem" />,
+                                    empty: <Text>{q + 1}</Text>,
+                                  }[status];
+
+                                  return (
+                                    <Flex key={q} gap={8}>
+                                      <Tooltip label={tooltipLabel} color={color}>
+                                        <ThemeIcon color={color} size={24} radius="xl">
+                                          {Icon}
+                                        </ThemeIcon>
+                                      </Tooltip>
+                                      <Box sx={{ flexGrow: 1 }}>
+                                        <Box sx={{ position: 'relative', minHeight: 72 }}>
+                                          <DottedPreview content={question} size="small" />
+                                          <Box sx={{ position: 'absolute', top: 0, width: '100%' }}>
+                                            <Draw points={result?.points} />
+                                          </Box>
+                                        </Box>
+                                        <Box mt={8}>
+                                          {!!result ? (
+                                            <Text size="xs">Total Percobaan Menjawab : {result?.retryCount}</Text>
+                                          ) : (
+                                            <Box sx={{ height: '18.59px' }} />
+                                          )}
+                                        </Box>
+                                      </Box>
+                                    </Flex>
+                                  );
+                                })}
+                              </Stack>
+                            </Accordion.Panel>
+                          </Accordion.Item>
+                        </Accordion>
+                      </Grid.Col>
+                    );
+                  })}
+                </Grid>
+              </Paper>
+            </Skeleton>
+          ))}
+        </>
+      ) : (
+        <States
+          image={imageEmptyData.src}
+          message="Data Not Found"
+          description="Tidak ada hasil yang sesuai dengan permintaan Anda"
+        />
+      )}
     </>
   );
 };
