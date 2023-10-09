@@ -119,13 +119,13 @@ const Report = () => {
               answers: answers || [],
             },
           };
+          setLoading(false);
         } catch (error) {
           setReport(null);
           setLoading(false);
         }
       });
     });
-    setLoading(false);
     setReport(result);
   };
 
@@ -262,7 +262,6 @@ const Report = () => {
                     const answers =
                       (report && report[userId] && report[userId] && report[userId][questionId]?.answers) || [];
                     const finsihed = answers.filter(({ correct }) => !!correct);
-
                     const progress = (finsihed.length / items.length) * 100;
                     return (
                       <Grid.Col xs={12} md={6} lg={4} key={j}>

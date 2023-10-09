@@ -16,10 +16,12 @@ const Draw = ({ points = [] }) => {
         drawMode: true,
         strokeColor: '#000000',
         strokeWidth: 1,
-        paths: points.map(({ x, y }) => ({
-          x: x / 8 + parentWidth / 2 - 62,
-          y: y / 8 + 16,
-        })),
+        paths: points?.length
+          ? points.map(({ x, y }) => ({
+              x: x / 8 + parentWidth / 2 - 62,
+              y: y / 8 + 16,
+            }))
+          : [],
       },
     ]);
   };
