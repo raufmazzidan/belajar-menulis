@@ -4,21 +4,32 @@ export default async function handler(req, res) {
   return new Promise((resolve, reject) => {
     authAdmin
       .verifyIdToken(req.headers.authorization)
-      .then(() => {
+      .then(async (decodedToken) => {
+        const uid = decodedToken.uid;
         if (req.method === 'POST') {
+          const resQuest = [];
+          await dbAdmin
+            .collection('question')
+            .where('createdBy', '=', uid)
+            .where('level', '=', 1)
+            .get()
+            .then((res) => {
+              res.forEach((doc) => resQuest.push(doc.id));
+            });
           const { email, password, ...body } = JSON.parse(req.body);
-          authAdmin
+          await authAdmin
             .createUser({
               email: email,
               password: password,
             })
-            .then((user) => {
+            .then(async (user) => {
               dbAdmin
                 .collection('user')
                 .doc(user.uid)
                 .set({
                   email: email,
                   pin: password,
+                  finished: [resQuest[0]],
                   ...body,
                 })
                 .then(() => {

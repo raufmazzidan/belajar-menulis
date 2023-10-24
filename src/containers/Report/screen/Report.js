@@ -317,12 +317,13 @@ const Report = () => {
                                         </ThemeIcon>
                                       </Tooltip>
                                       <Box sx={{ flexGrow: 1 }}>
-                                        <Box sx={{ position: 'relative', minHeight: 72 }}>
-                                          <DottedPreview content={question} size="small" />
-                                          <Box sx={{ position: 'absolute', top: 0, width: '100%' }}>
+                                        {result?.points ? (
+                                          <Paper withBorder h={72}>
                                             <Draw points={result?.points} />
-                                          </Box>
-                                        </Box>
+                                          </Paper>
+                                        ) : (
+                                          <DottedPreview content={question} size="small" />
+                                        )}
                                         <Box mt={8}>
                                           {!!result ? (
                                             <Text size="xs">Total Percobaan Menjawab : {result?.retryCount}</Text>
