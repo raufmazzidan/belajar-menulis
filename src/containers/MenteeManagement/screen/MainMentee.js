@@ -21,7 +21,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IconPencil, IconPlus, IconTrash } from '@tabler/icons-react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import imageEmptyData from '@/assets/empty-data.svg';
@@ -37,7 +37,12 @@ const MainMentee = () => {
 
   const getData = async () => {
     setLoading(true);
-    const ref = query(collection(db, 'user'), where('mentor', '==', user.uid));
+    const ref = query(
+      collection(db, 'user'),
+      where('mentor', '==', user.uid),
+      orderBy('mentor'),
+      orderBy('createdDate')
+    );
     try {
       const response = await getDocs(ref);
       const data = response.docs.map((doc) => ({ id: doc.id, ...doc.data() }));

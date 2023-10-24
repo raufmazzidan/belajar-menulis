@@ -79,7 +79,12 @@ const Report = () => {
   const getMentee = async () => {
     setLoading(true);
     try {
-      const ref = query(collection(db, 'user'), where('mentor', '==', user.uid));
+      const ref = query(
+        collection(db, 'user'),
+        where('mentor', '==', user.uid),
+        orderBy('mentor'),
+        orderBy('createdDate')
+      );
       const response = await getDocs(ref);
       const data = response.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setMentee(data);
